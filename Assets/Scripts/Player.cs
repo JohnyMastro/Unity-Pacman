@@ -8,6 +8,7 @@ public class Player : Pawn {
 	// Use this for initialization
 	void Start () {
         mDirection = Direction.LEFT;
+        GetAndSortPathColliders();
     }
 
    // Update is called once per frame
@@ -21,24 +22,25 @@ public class Player : Pawn {
         //right
         if (Input.GetButton("Horizontal") && Input.GetAxisRaw("Horizontal") > 0)
         {
-            Move(Direction.RIGHT);
+            MoveIfPossible(Direction.RIGHT);
         }
         //left
         else if (Input.GetButton("Horizontal") && Input.GetAxisRaw("Horizontal") < 0)
         {
-            Move(Direction.LEFT);
+            MoveIfPossible(Direction.LEFT);
         }
         //Down
         else if (Input.GetButton("Vertical") && Input.GetAxisRaw("Vertical") < 0)
         {
-            Move(Direction.DOWN);
+            MoveIfPossible(Direction.DOWN);
         }
         //Up
         else if (Input.GetButton("Vertical") && Input.GetAxisRaw("Vertical") > 0)
         {
-            Move(Direction.UP);
+            MoveIfPossible(Direction.UP);
         }
     }
+
 
     public override void Die()
     {

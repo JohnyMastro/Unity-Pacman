@@ -8,7 +8,7 @@ public enum Direction { UP, DOWN, LEFT, RIGHT };
 public abstract class Pawn : MonoBehaviour {
     protected Direction mDirection = Direction.LEFT;
     protected float mSpeed = 0.05f;
-
+    protected PathCollider[] mPathColliders;
     // Use this for initialization
     void Start () {
 		
@@ -43,6 +43,45 @@ public abstract class Pawn : MonoBehaviour {
         mDirection = direction;
         directionVector *= mSpeed;
         transform.position = new Vector2(transform.position.x + directionVector.x, transform.position.y + directionVector.y);
+    }
+    protected void GetAndSortPathColliders()
+    {
+        PathCollider[] tmpPathColliders = GetComponentsInChildren<PathCollider>();
+        mPathColliders = new PathCollider[4];
+        foreach(PathCollider tmpPathCollider in tmpPathColliders)
+        {
+            mPathColliders[(int)tmpPathCollider.mDirection] = tmpPathCollider;
+        }
+    }
+
+    //will permit player to move in that direction if that cell is free
+    protected void MoveIfPossible(Direction direction)
+    {
+        if (isPathFree(direction))
+        {
+            Move(direction);
+        }
+    }
+
+    protected bool isPathFree(Direction direction)
+    {
+        bool canMove = true;
+        if (mPathColliders != null)
+        {
+            if (mPathColliders[(int)direction])
+            {
+                canMove = mPathColliders[(int)direction].isFree;
+            }
+            else
+            {
+                Debug.LogError("GetAndSortPathColliders was not called!");
+            }
+        }
+        else
+        {
+            Debug.LogError("PathColliders are NULL!");
+        }
+        return canMove;
     }
 
     public abstract void Die();
