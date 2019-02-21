@@ -25,17 +25,17 @@ public class Player : Pawn {
             MoveIfPossible(Direction.RIGHT);
         }
         //left
-        else if (Input.GetButton("Horizontal") && Input.GetAxisRaw("Horizontal") < 0)
+        if (Input.GetButton("Horizontal") && Input.GetAxisRaw("Horizontal") < 0)
         {
             MoveIfPossible(Direction.LEFT);
         }
         //Down
-        else if (Input.GetButton("Vertical") && Input.GetAxisRaw("Vertical") < 0)
+        if (Input.GetButton("Vertical") && Input.GetAxisRaw("Vertical") < 0)
         {
             MoveIfPossible(Direction.DOWN);
         }
         //Up
-        else if (Input.GetButton("Vertical") && Input.GetAxisRaw("Vertical") > 0)
+        if (Input.GetButton("Vertical") && Input.GetAxisRaw("Vertical") > 0)
         {
             MoveIfPossible(Direction.UP);
         }

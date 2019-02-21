@@ -7,7 +7,7 @@ public enum Direction { UP, DOWN, LEFT, RIGHT };
 //Base abstract class to be inherited by AI and Playable Characters
 public abstract class Pawn : MonoBehaviour {
     protected Direction mDirection = Direction.LEFT;
-    protected float mSpeed = 0.05f;
+    protected float mSpeed = 0.03f;
     protected PathCollider[] mPathColliders;
     // Use this for initialization
     void Start () {
@@ -20,6 +20,14 @@ public abstract class Pawn : MonoBehaviour {
 	}
 
     public void Move(Direction direction)
+    {
+        Vector2 directionVector = GetVectorFromDirection(direction);
+        mDirection = direction;
+        directionVector *= mSpeed;
+        transform.position = new Vector2(transform.position.x + directionVector.x, transform.position.y + directionVector.y);
+    }
+
+    protected Vector2 GetVectorFromDirection(Direction direction)
     {
         Vector2 directionVector;
         switch (direction)
@@ -40,10 +48,9 @@ public abstract class Pawn : MonoBehaviour {
                 directionVector = Vector2.zero;
                 break;
         }
-        mDirection = direction;
-        directionVector *= mSpeed;
-        transform.position = new Vector2(transform.position.x + directionVector.x, transform.position.y + directionVector.y);
+        return directionVector;
     }
+
     protected void GetAndSortPathColliders()
     {
         PathCollider[] tmpPathColliders = GetComponentsInChildren<PathCollider>();
@@ -55,12 +62,15 @@ public abstract class Pawn : MonoBehaviour {
     }
 
     //will permit player to move in that direction if that cell is free
-    protected void MoveIfPossible(Direction direction)
+    protected bool MoveIfPossible(Direction direction)
     {
+        bool didMove = false;
         if (isPathFree(direction))
         {
             Move(direction);
+            didMove = true;
         }
+        return didMove;
     }
 
     protected bool isPathFree(Direction direction)
