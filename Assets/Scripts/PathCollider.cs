@@ -25,7 +25,7 @@ public class PathCollider : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(mDirection +" locked "+collision.tag);
+       // Debug.Log(mDirection +" locked "+collision.tag);
         if (collision.tag == "wall")
         {
             _isFree = false;
@@ -34,8 +34,7 @@ public class PathCollider : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log(mDirection + " unlocked " + collision.tag);
-
+       // Debug.Log(mDirection + " unlocked " + collision.tag);
         if (collision.tag == "wall")
         {
             _isFree = true;
