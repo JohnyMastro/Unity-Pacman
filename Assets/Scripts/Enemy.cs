@@ -47,7 +47,7 @@ public class Enemy : Pawn {
                 mDirection = GetRandomDirection();
             }
         }
-        Debug.Log(mDirection);
+       // Debug.Log(mDirection);
     }
 
     Direction GetRandomDirection()
@@ -69,6 +69,7 @@ public class Enemy : Pawn {
 
     //Decide the best move to catch the player
     void DecideNextMove(){
+        Vector3Int cellPosition = MazeTilemap._MazeTilemap.WorldToCell(transform.position);
         mDirection = GetClosestDirection();
     }
 

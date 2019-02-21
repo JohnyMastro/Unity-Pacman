@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Tilemaps;
 //this class is to give the player control over pacman
 public class Player : Pawn {
 
@@ -14,6 +14,8 @@ public class Player : Pawn {
    // Update is called once per frame
 	void Update () {
         PlayerControl();
+        Vector3Int cellPosition = MazeTilemap._MazeTilemap.WorldToCell(transform.position);
+        //Debug.Log(cellPosition);
     }
 
     //used to poll Player's input
