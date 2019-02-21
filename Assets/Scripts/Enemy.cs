@@ -50,17 +50,6 @@ public class Enemy : Pawn {
         Debug.Log(mDirection);
     }
 
-    void CheckPlayerDistance()
-    {
-        float distanceToPlayer = Vector2.Distance(mPlayer.transform.position, transform.position);
-        mIsLatched = distanceToPlayer < mLatchingDistance;
-    }
-
-    //Decide the best move to catch the player
-    void DecideNextMove(){
-        mDirection = GetClosestDirection();
-    }
-
     Direction GetRandomDirection()
     {
         Direction newDirection;
@@ -70,6 +59,17 @@ public class Enemy : Pawn {
         }
         while (newDirection == mDirection && !isPathFree(newDirection));
         return newDirection;
+    }
+
+    void CheckPlayerDistance()
+    {
+        float distanceToPlayer = Vector2.Distance(mPlayer.transform.position, transform.position);
+        mIsLatched = distanceToPlayer < mLatchingDistance;
+    }
+
+    //Decide the best move to catch the player
+    void DecideNextMove(){
+        mDirection = GetClosestDirection();
     }
 
     Direction GetClosestDirection()
