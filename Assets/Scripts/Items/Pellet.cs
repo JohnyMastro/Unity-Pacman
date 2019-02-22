@@ -16,6 +16,8 @@ public class Pellet : Collectible {
 
     protected override void AddPoints()
     {
-
+        GameStateManager instance = GameStateManager.GetInstance();
+        instance.AddPoints(mPoints);
+        instance.PelletWasEaten();
     }
 }
