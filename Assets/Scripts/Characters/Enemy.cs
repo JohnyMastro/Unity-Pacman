@@ -4,12 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+
+
 public class Enemy : Pawn {
+    enum SpriteType {STANDARD, SCARED, DEAD};
+
+    float mOriginalSpeed;
+
     //Time interval for when the enemy can make a decision
-    const float mDeltaDecisionTime = 0.2f;
+    const float mDeltaDecisionTime = 1f;
 
     //time count until next enemy decision
-    float mDecisionTime = 0f;
+    float mDecisionTime = mDeltaDecisionTime;
 
     //roughly the distance of on step in any direction
     const float mStepDistance = 0.8f;
@@ -22,43 +28,79 @@ public class Enemy : Pawn {
 
     bool mIsAlive = true;
 
+    bool mIsRespawned = false;
+
     //Player got a powerup
     bool mIsScared = false;
+
+    SpriteRenderer mSpriteRenderer;
+
+    Color mOriginalColor;
+
+    [SerializeField]
+    Sprite[] mSprites =new Sprite[Enum.GetNames(typeof(SpriteType)).Length];
 
     //get reference of player to know where Pacman is in relation to the enemy
     Player mPlayer;
 
-	// Use this for initialization
-	void Start () {
+    Vector3Int mSpawnPosition = new Vector3Int(8, 11, 0);
+
+    // Use this for initialization
+    void Start () {
         GetAndSortPathColliders();
         mPlayer = FindObjectOfType<Player>();
         mSpeed *= 0.85f;
-
-        //TileBase tiletest = MazeTilemap._MazeTilemap.GetTile(new Vector3Int(0, 0, 0));
-        ////MazeTilemap._MazeTilemap.SetTile(ConvertDirectionToPosition(MazeTilemap._MazeTilemap.WorldToCell(transform.position), Direction.DOWN), null);
-        //MazeTilemap._MazeTilemap.SetTile(new Vector3Int(1, 1, 0), tiletest);
-        //MazeTilemap.print();
+        mOriginalSpeed = mSpeed;
+        mPoints = 300;
+        mSpriteRenderer = GetComponent<SpriteRenderer>();
+        mOriginalColor = mSpriteRenderer.color;
+        //mSprites[(int)SpriteType.STANDARD] = mSpriteRenderer.sprite;
     }
 
     // Update is called once per frame
     void Update () {
-        CheckPlayerDistance();
-        mDecisionTime += Time.deltaTime;
+        CheckPlayerStatus();
+        AIControls();
+        RespawnIfPossible();
+        UpdateSpriteAndSpeed();
+      //  Debug.Log(mDirection);
+    }
 
-        if (mIsLatched && IsCloseEnoughToCellCenter())//if the player is close by, follow it
+    /**
+     * Let Enemy decide what is the best move in it's current state
+     */
+    void AIControls()
+    {
+        if (!mIsAlive)
         {
-            mDirection = DecideNextMove();
-            mDecisionTime = 0;
-        }
-        if (!MoveIfPossible(mDirection))//couldnt move
-        {
-            if (isDocile())
+            if (IsCloseEnoughToCellCenter())//if the player is close by, follow it
             {
-                mDirection = GetRandomDirection();
-                MoveIfPossible(mDirection);
+                mDirection = DecideNextMoveBFS(mSpawnPosition);
             }
         }
-      //  Debug.Log(mDirection);
+        else if (mIsLatched)//if the player is close by
+        {
+            if (mIsScared)//if the player is powered up and close, the enemy will try to run away
+            {
+                mDecisionTime += Time.deltaTime;
+                //if (mDecisionTime > mDeltaDecisionTime)
+                //{
+                    mDirection = GetFarthestDirection();
+                  //  mDecisionTime = 0f;
+               // }
+            }
+            else if (IsCloseEnoughToCellCenter())//if the enemy is alive, not scared, and close enough to player
+            {
+                Vector3Int playerPosition = MazeTilemap._MazeTilemap.WorldToCell(mPlayer.transform.position);
+                mDirection = DecideNextMoveBFS(playerPosition);
+            }
+        }
+
+        if (!MoveIfPossible(mDirection))//couldnt move
+        {
+            mDirection = GetRandomDirection();
+            MoveIfPossible(mDirection);
+        }
     }
 
     /**
@@ -97,20 +139,29 @@ public class Enemy : Pawn {
     /**
      * Checks the if the player is close enough to latch onto
      */
-    void CheckPlayerDistance()
+    void CheckPlayerStatus()
     {
         float distanceToPlayer = Vector2.Distance(mPlayer.transform.position, transform.position);
         mIsLatched = distanceToPlayer < mLatchingDistance;
+        if (mPlayer.IsPowerUp())
+        {
+            mIsScared = true;
+        }
+        else
+        {
+            mIsScared = false;
+            mIsRespawned = false;
+            mDecisionTime = mDeltaDecisionTime;
+        }
     }
 
     /**
-     * Decide the best move to catch the player.
+     * Decide the best move to catch the player or to go to spawn point.
      * This uses a basic breadth first search
      */
-    Direction DecideNextMove(){
+    Direction DecideNextMoveBFS(Vector3Int goalPosition)
+    {
         Vector3Int enemyPosition = MazeTilemap._MazeTilemap.WorldToCell(transform.position);
-        Vector3Int playerPosition = MazeTilemap._MazeTilemap.WorldToCell(mPlayer.transform.position);
-
         Queue<KeyValuePair<Direction, Vector3Int>> queue = new Queue<KeyValuePair<Direction, Vector3Int>>();
         Queue<KeyValuePair<Direction, Vector3Int>> dequeued = new Queue<KeyValuePair<Direction, Vector3Int>>();
 
@@ -121,7 +172,7 @@ public class Enemy : Pawn {
         while (queue.Count != 0)
         {
             current = queue.Dequeue();
-            if(current.Value == playerPosition)
+            if(current.Value == goalPosition)
             {
                 chosenDirection = current.Key;
                 break;
@@ -168,15 +219,50 @@ public class Enemy : Pawn {
         return new Vector3Int(position.x + directionVector.x, position.y + directionVector.y, position.z);
      }
 
+    void UpdateSpriteAndSpeed()
+    {
 
+        if(!mIsAlive)
+        {
+            mSpriteRenderer.sprite = mSprites[(int)SpriteType.DEAD];
+            mSpriteRenderer.color = Color.white;
+            mSpeed = mOriginalSpeed * 1.7f;
+        }
+        else if (mIsScared && !mIsRespawned)
+        {
+            mSpriteRenderer.sprite = mSprites[(int)SpriteType.SCARED];
+            mSpriteRenderer.color = Color.white;
+            mSpeed = mOriginalSpeed * 0.5f;
+        }
+        else
+        {
+            mSpriteRenderer.sprite = mSprites[(int)SpriteType.STANDARD];
+            mSpriteRenderer.color = mOriginalColor;
+            mSpeed = mOriginalSpeed;
+        }
+    }
 
-    Direction GetClosestDirection()
+    void RespawnIfPossible()
+    {
+        if (!mIsAlive)
+        {
+            Vector3Int currentCellPosition = MazeTilemap._MazeTilemap.WorldToCell(transform.position);
+            if (currentCellPosition == mSpawnPosition)
+            {
+                mIsAlive = true;
+                mIsScared = false;
+                mIsRespawned = true;
+            }
+        }
+    }
+
+    Direction GetFarthestDirection()
     {
         List<KeyValuePair<Direction, float>> freeDirections = GetFreeDirections();
         KeyValuePair<Direction, float> choice = freeDirections[0];
         foreach (KeyValuePair<Direction, float> entry in freeDirections)
         {
-            if(entry.Value< choice.Value)
+            if(entry.Value > choice.Value)
             {
                 choice = entry;
             }
@@ -212,13 +298,30 @@ public class Enemy : Pawn {
         return !mIsLatched && mIsAlive && !mIsScared;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "player")
+        {
+            if (mIsScared)
+            {
+                Die();
+            }
+            else if (mIsAlive)
+            {
+                mPlayer.Die();
+            }
+        }
+    }
+
     public override void Die()
     {
-
+        mIsAlive = false;
+        AddPoints();
     }
 
     protected override void AddPoints()
     {
-
+        GameStateManager instance = GameStateManager.GetInstance();
+        instance.AddPoints(mPoints);
     }
 }

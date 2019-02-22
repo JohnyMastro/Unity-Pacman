@@ -35,7 +35,6 @@ public class MazeTilemap : MonoBehaviour {
                 }
             }
         }
-        print();
     }
 
     void print()

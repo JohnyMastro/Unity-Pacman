@@ -21,7 +21,7 @@ public class PelletTilemap : Pellet {
         OnPlayerCollision(collision);
     }
 
-    protected void OnPlayerCollision(Collision2D collision)
+    protected virtual void OnPlayerCollision(Collision2D collision)
     {
         if (collision.gameObject.tag == "player")
         {

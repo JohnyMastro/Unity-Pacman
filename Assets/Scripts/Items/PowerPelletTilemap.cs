@@ -20,5 +20,14 @@ public class PowerPelletTilemap : PelletTilemap
     {
         OnPlayerCollision(collision);
     }
+    protected override void OnPlayerCollision(Collision2D collision)
+    {
+        base.OnPlayerCollision(collision);
+        if(collision.gameObject.tag == "player")
+        {
+            collision.gameObject.GetComponent<Player>().PowerUp();
+        }
+
+    }
 
 }
