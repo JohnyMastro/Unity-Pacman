@@ -57,6 +57,10 @@ public class Enemy : Pawn {
 
     // Update is called once per frame
     void Update () {
+        if (GameStateManager.GetInstance().mIsPaused)
+        {
+            return;
+        }
         CheckPlayerStatus();
         AIControls();
         RespawnIfPossible();

@@ -9,6 +9,13 @@ public class GameStateManager : MonoBehaviour {
     private static GameStateManager mInstance;
     private int _Score = 0;
     private int _NumOfPellets = 0;
+    private bool _IsPaused = false;
+
+    public bool mIsPaused
+    {
+        get { return _IsPaused; }
+        set { _IsPaused = value; }
+    }
 
     public int mScore
     {

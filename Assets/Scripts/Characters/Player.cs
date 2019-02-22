@@ -26,6 +26,10 @@ public class Player : Pawn {
 
    // Update is called once per frame
 	void Update () {
+        if (GameStateManager.GetInstance().mIsPaused)
+        {
+            return;
+        }
         PlayerControl();
         PowerPolling();
     }
