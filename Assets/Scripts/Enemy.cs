@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Enemy : Pawn {
     //Time interval for when the enemy can make a decision
@@ -10,7 +11,7 @@ public class Enemy : Pawn {
     float mDecisionTime = 0f;
 
     //roughly the distance of on step in any direction
-    const float mStepDistance = 1f;
+    const float mStepDistance = 0.8f;
 
     //Distance to which the enemy may aggro on the player
     const float mLatchingDistance = 2f;
@@ -28,6 +29,11 @@ public class Enemy : Pawn {
         GetAndSortPathColliders();
         mPlayer = FindObjectOfType<Player>();
         mSpeed *= 0.85f;
+
+        //TileBase tiletest = MazeTilemap._MazeTilemap.GetTile(new Vector3Int(0, 0, 0));
+        ////MazeTilemap._MazeTilemap.SetTile(ConvertDirectionToPosition(MazeTilemap._MazeTilemap.WorldToCell(transform.position), Direction.DOWN), null);
+        //MazeTilemap._MazeTilemap.SetTile(new Vector3Int(1, 1, 0), tiletest);
+        //MazeTilemap.print();
     }
 
     // Update is called once per frame
@@ -69,9 +75,18 @@ public class Enemy : Pawn {
 
     //Decide the best move to catch the player
     void DecideNextMove(){
-        Vector3Int cellPosition = MazeTilemap._MazeTilemap.WorldToCell(transform.position);
-        mDirection = GetClosestDirection();
+        Vector3Int EnemyPosition = MazeTilemap._MazeTilemap.WorldToCell(transform.position);
+        Vector3Int PlayerPosition = MazeTilemap._MazeTilemap.WorldToCell(mPlayer.transform.position);
+
+
+        //mDirection = GetClosestDirection();
     }
+
+    Vector3Int ConvertDirectionToPosition(Vector3Int position, Direction direction)
+    {
+        Vector2Int directionVector = GetVectorFromDirection(direction);
+        return new Vector3Int(position.x + directionVector.x, position.y + directionVector.y, position.z);
+     }
 
     Direction GetClosestDirection()
     {

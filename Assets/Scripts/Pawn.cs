@@ -27,25 +27,25 @@ public abstract class Pawn : MonoBehaviour {
         transform.position = new Vector2(transform.position.x + directionVector.x, transform.position.y + directionVector.y);
     }
 
-    protected Vector2 GetVectorFromDirection(Direction direction)
+    protected Vector2Int GetVectorFromDirection(Direction direction)
     {
-        Vector2 directionVector;
+        Vector2Int directionVector;
         switch (direction)
         {
             case Direction.UP:
-                directionVector = Vector2.up;
+                directionVector = Vector2Int.up;
                 break;
             case Direction.DOWN:
-                directionVector = Vector2.down;
+                directionVector = Vector2Int.down;
                 break;
             case Direction.LEFT:
-                directionVector = Vector2.left;
+                directionVector = Vector2Int.left;
                 break;
             case Direction.RIGHT:
-                directionVector = Vector2.right;
+                directionVector = Vector2Int.right;
                 break;
             default:
-                directionVector = Vector2.zero;
+                directionVector = Vector2Int.zero;
                 break;
         }
         return directionVector;
