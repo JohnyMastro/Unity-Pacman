@@ -8,15 +8,13 @@ public enum TileType {EMPTY, WALL, PELLET}
 public class MazeTilemap : MonoBehaviour {
     public static Tilemap _MazeTilemap;
     public static TileType[,] MazeMap;
-    int mX;
-    int mY;
+    public const int mX = 17;
+    public const int mY = 18;
     // Use this for initialization
     void Start () {
 
         _MazeTilemap = GetComponent<Tilemap>();
 
-        mX = 17;
-        mY = 18;
         MazeMap = new TileType[mX, mY];
         //TileBase tiletest = _MazeTilemap.GetTile(new Vector3Int(0, 0, 0));
        // _MazeTilemap.SetTile(new Vector3Int(1, 1, 0), tiletest);

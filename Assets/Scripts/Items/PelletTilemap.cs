@@ -36,8 +36,8 @@ public class PelletTilemap : Pellet {
 
     protected int GetNumberOfPellets()
     {
-        int mX = 17;
-        int mY = 18;
+        int mX = MazeTilemap.mX;
+        int mY = MazeTilemap.mY;
         int count = 0;
 
         for (int x = 0; x < mX; x++)

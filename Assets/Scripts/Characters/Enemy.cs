@@ -41,7 +41,7 @@ public class Enemy : Pawn {
     //get reference of player to know where Pacman is in relation to the enemy
     Player mPlayer;
 
-    readonly Vector3Int mSpawnPosition = new Vector3Int(8, 10, 0);
+    Vector3Int mSpawnPosition;
 
     // Use this for initialization
     void Start () {
@@ -50,6 +50,7 @@ public class Enemy : Pawn {
         mSpeed *= 0.8f;
         mOriginalSpeed = mSpeed;
         mPoints = 300;
+        mSpawnPosition = RespawnTilemap.FindRespawnTile();
         mSpriteRenderer = GetComponent<SpriteRenderer>();
         mOriginalColor = mSpriteRenderer.color;
         //mSprites[(int)SpriteType.STANDARD] = mSpriteRenderer.sprite;
