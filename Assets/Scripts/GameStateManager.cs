@@ -60,7 +60,7 @@ public class GameStateManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(_NumOfPellets);
+        //Debug.Log(_NumOfPellets);
 		if(_NumOfPellets <= 0)
         {
             //win

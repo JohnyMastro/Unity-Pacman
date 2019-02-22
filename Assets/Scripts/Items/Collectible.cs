@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Collectible : MonoBehaviour {
-    protected int mPoints;
+    protected int mPoints = 100;
 	// Use this for initialization
 	void Start () {
 		
