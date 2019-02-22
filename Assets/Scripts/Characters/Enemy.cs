@@ -80,7 +80,7 @@ public class Enemy : Pawn {
         }
         else if (mIsLatched)//if the player is close by
         {
-            if (mIsScared)//if the player is powered up and close, the enemy will try to run away
+            if (isVulnerable())//if the player is powered up and close, the enemy will try to run away
             {
                 mDecisionTime += Time.deltaTime;
                 //if (mDecisionTime > mDeltaDecisionTime)
@@ -228,7 +228,7 @@ public class Enemy : Pawn {
             mSpriteRenderer.color = Color.white;
             mSpeed = mOriginalSpeed * 1.7f;
         }
-        else if (mIsScared && !mIsRespawned)
+        else if (isVulnerable())
         {
             mSpriteRenderer.sprite = mSprites[(int)SpriteType.SCARED];
             mSpriteRenderer.color = Color.white;
@@ -302,7 +302,7 @@ public class Enemy : Pawn {
     {
         if (collision.gameObject.tag == "player")
         {
-            if (mIsScared)
+            if (isVulnerable())
             {
                 Die();
             }
@@ -311,6 +311,10 @@ public class Enemy : Pawn {
                 mPlayer.Die();
             }
         }
+    }
+    bool isVulnerable()
+    {
+        return mIsScared && !mIsRespawned;
     }
 
     public override void Die()
