@@ -4,9 +4,12 @@ using UnityEngine;
 
 public enum Direction { UP, DOWN, LEFT, RIGHT };
 
-//Base abstract class to be inherited by AI and Playable Characters
-public abstract class Pawn : MonoBehaviour {
-    protected Direction mDirection = Direction.LEFT;
+/**
+ * Base abstract class to be inherited by AI and Playable Characters
+ * Inheriting Collectible so that enemies can add points
+ */
+public abstract class Pawn : Collectible {
+    public Direction mDirection = Direction.LEFT;
     protected float mSpeed = 0.03f;
     protected PathCollider[] mPathColliders;
     // Use this for initialization
@@ -95,4 +98,5 @@ public abstract class Pawn : MonoBehaviour {
     }
 
     public abstract void Die();
+
 }

@@ -216,4 +216,9 @@ public class Enemy : Pawn {
     {
 
     }
+
+    protected override void AddPoints()
+    {
+
+    }
 }

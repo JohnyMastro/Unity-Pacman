@@ -48,4 +48,9 @@ public class Player : Pawn {
     {
 
     }
+
+    protected override void AddPoints()
+    {
+
+    }
 }

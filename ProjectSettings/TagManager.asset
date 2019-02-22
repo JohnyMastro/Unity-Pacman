@@ -6,6 +6,7 @@ TagManager:
   tags:
   - wall
   - player
+  - pellet
   layers:
   - Default
   - TransparentFX
