@@ -52,6 +52,10 @@ public class MazeTilemap : MonoBehaviour {
         Debug.Log(mapString);
     }
 	
+    public static bool isPositionEmpty(Vector3Int position)
+    {
+        return MazeMap[position.x, position.y] == TileType.EMPTY;
+    }
 	// Update is called once per frame
 	void Update () {
 		
