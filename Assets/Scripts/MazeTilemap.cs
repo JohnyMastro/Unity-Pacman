@@ -19,7 +19,7 @@ public class MazeTilemap : MonoBehaviour {
         mY = 18;
         MazeMap = new TileType[mX, mY];
         TileBase tiletest = _MazeTilemap.GetTile(new Vector3Int(0, 0, 0));
-        _MazeTilemap.SetTile(new Vector3Int(1, 1, 0), tiletest);
+       // _MazeTilemap.SetTile(new Vector3Int(1, 1, 0), tiletest);
         for (int x = 0; x < mX; x++)
         {
             for (int y = 0; y < mY; y++)
