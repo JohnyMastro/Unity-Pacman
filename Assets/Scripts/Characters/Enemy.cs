@@ -33,8 +33,6 @@ public class Enemy : Pawn {
     //Player got a powerup
     bool mIsScared = false;
 
-    SpriteRenderer mSpriteRenderer;
-
     Color mOriginalColor;
 
     [SerializeField]
@@ -43,13 +41,13 @@ public class Enemy : Pawn {
     //get reference of player to know where Pacman is in relation to the enemy
     Player mPlayer;
 
-    Vector3Int mSpawnPosition = new Vector3Int(8, 11, 0);
+    readonly Vector3Int mSpawnPosition = new Vector3Int(8, 10, 0);
 
     // Use this for initialization
     void Start () {
         GetAndSortPathColliders();
         mPlayer = FindObjectOfType<Player>();
-        mSpeed *= 0.85f;
+        mSpeed *= 0.8f;
         mOriginalSpeed = mSpeed;
         mPoints = 300;
         mSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -226,7 +224,7 @@ public class Enemy : Pawn {
         {
             mSpriteRenderer.sprite = mSprites[(int)SpriteType.DEAD];
             mSpriteRenderer.color = Color.white;
-            mSpeed = mOriginalSpeed * 1.7f;
+            mSpeed = mOriginalSpeed * 1.3f;
         }
         else if (isVulnerable())
         {

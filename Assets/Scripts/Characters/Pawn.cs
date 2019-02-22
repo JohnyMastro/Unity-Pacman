@@ -12,6 +12,9 @@ public abstract class Pawn : Collectible {
     public Direction mDirection = Direction.LEFT;
     protected float mSpeed = 0.03f;
     protected PathCollider[] mPathColliders;
+    protected SpriteRenderer mSpriteRenderer;
+    protected Animator mAnimator;
+
     // Use this for initialization
     void Start () {
 		

@@ -8,6 +8,7 @@ TagManager:
   - player
   - pellet
   - powerPellet
+  - pacmanSprite
   layers:
   - Default
   - TransparentFX
