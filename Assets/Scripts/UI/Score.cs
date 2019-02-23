@@ -18,7 +18,6 @@ public class Score : MonoBehaviour {
 
     public void UpdateText()
     {
-       // Debug.Log(GameStateManager.GetInstance().mScore.ToString());
         mText.text = GameStateManager.GetInstance().mScore.ToString();
     }
 }

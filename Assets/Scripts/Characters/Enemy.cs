@@ -322,8 +322,12 @@ public class Enemy : Pawn {
 
     public override void Die()
     {
-        mIsAlive = false;
-        AddPoints();
+        if (mIsAlive)
+        {
+            mIsAlive = false;
+            AddPoints();
+            InstantiatePoints(transform);
+        }
     }
 
     protected override void AddPoints()

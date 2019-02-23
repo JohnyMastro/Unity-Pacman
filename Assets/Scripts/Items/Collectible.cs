@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Collectible : MonoBehaviour {
     protected int mPoints = 100;
+    protected GameObject mPointsPrefab;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -13,7 +15,16 @@ public abstract class Collectible : MonoBehaviour {
 	void Update () {
 		
 	}
-
+    protected void InstantiatePoints(Transform desiredTransform)
+    {
+        mPointsPrefab = Resources.Load<GameObject>("Prefabs/PointsCanvas");
+        if (mPointsPrefab != null)
+        {
+            GameObject pointsInstance = Instantiate(mPointsPrefab, desiredTransform.position, desiredTransform.rotation) as GameObject;
+            Points points = pointsInstance.GetComponent<Points>();
+            points.SetPoints(mPoints);
+        }
+    }
     protected abstract void AddPoints();
 
 }

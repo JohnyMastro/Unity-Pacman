@@ -26,8 +26,11 @@ public class PowerPelletTilemap : PelletTilemap
         if(collision.gameObject.tag == "player")
         {
             collision.gameObject.GetComponent<Player>().PowerUp();
+            InstantiatePoints(collision.gameObject.transform);
+
         }
 
     }
+
 
 }

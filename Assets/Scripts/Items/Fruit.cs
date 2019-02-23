@@ -64,6 +64,8 @@ public class Fruit : Collectible {
         {
             Appear(false);
             AddPoints();
+            InstantiatePoints(transform);
+
         }
     }
 }
