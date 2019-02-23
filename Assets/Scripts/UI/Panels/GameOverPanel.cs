@@ -21,6 +21,7 @@ public class GameOverPanel : Panel {
             {
                 mAnimator.SetTrigger("fadeIn");
                 UpdateInteractable(true);
+                GameStateManager.GetInstance().PowerDown();
                 Pause();
 
             }

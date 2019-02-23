@@ -373,9 +373,8 @@ public class Enemy : Pawn {
         transform.position = mOriginalPosition;
         mDirection = mOriginalDirection;
         mIsAlive = true;
-        mIsScared = true;
         CalmDown();
-        //mIsRespawned = false;
+        UpdateSpriteAndSpeed();
     }
 
     protected override void AddPoints()

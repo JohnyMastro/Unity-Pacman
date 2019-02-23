@@ -72,6 +72,13 @@ public class GameStateManager : MonoBehaviour {
     public void AddPoints(int points)
     {
         _Score += points;
+        if(_Score>0 && (_Score % 20000 == 0))
+        {
+            if (_Lives < 3)
+            {
+                _Lives++;
+            }
+        }
     }
 
     public void PelletWasEaten()
@@ -132,20 +139,21 @@ public class GameStateManager : MonoBehaviour {
         }
         if (!mAudioSourcePowerUp.isPlaying)
         {
+            Debug.Log("PLAY");
+            mAudioSourcePowerUp.loop = true;
             mAudioSourcePowerUp.Play();
         }
     }
 
     public void PowerDown()
     {
-        if (mAudioSourcePowerUp.isPlaying)
-        {
-            mAudioSourcePowerUp.Stop();
-        }
+        mAudioSourcePowerUp.loop = false;
+        mAudioSourcePowerUp.Stop();
     }
 
     public void HardReloadScene()
     {
+        PowerDown();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -160,8 +168,9 @@ public class GameStateManager : MonoBehaviour {
 
         Fruit fruit = FindObjectOfType<Fruit>();
         fruit.ResetTimer();
-
         FindObjectOfType<StartPanel>().Reinitialize();
+        PowerDown();
+
     }
 
     public void ReinitializeGame()

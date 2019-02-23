@@ -14,6 +14,7 @@ public class WinPanel : Panel {
         {
             if (!mIsPanelActivated && !mPanel.activeSelf)
             {
+                GameStateManager.GetInstance().PowerDown();
                 Pause();
             }
         }

@@ -80,5 +80,6 @@ public class Fruit : Collectible {
     {
         mAppearTimer = 0f;
         mHasAppeared = false;
+        Appear(false);
     }
 }

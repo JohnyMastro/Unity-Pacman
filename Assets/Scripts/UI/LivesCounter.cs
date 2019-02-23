@@ -17,6 +17,10 @@ public class LivesCounter : MonoBehaviour {
     void UpdateLifeCounter()
     {
         int lives = GameStateManager.GetInstance().mLives;
+        mLifeImages[0].SetActive(true);
+        mLifeImages[1].SetActive(true);
+        mLifeImages[2].SetActive(true);
+
         switch (lives)
         {
             case 0:
