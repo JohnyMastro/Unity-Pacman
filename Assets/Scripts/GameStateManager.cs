@@ -87,7 +87,7 @@ public class GameStateManager : MonoBehaviour {
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            ResetLevelOnPlayerDeath();
+            _Lives = 0;
         }
         if (Input.GetKeyDown(KeyCode.U))
         {

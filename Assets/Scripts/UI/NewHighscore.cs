@@ -32,4 +32,5 @@ public class NewHighscore : MonoBehaviour {
         gInstance.SaveScore(mInputName.text);
         gInstance.ReinitializeGame();
     }
+
 }
