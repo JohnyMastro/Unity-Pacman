@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Direction { UP, DOWN, LEFT, RIGHT };
+public enum Direction { UP, DOWN, LEFT, RIGHT};
 
 /**
  * Base abstract class to be inherited by AI and Playable Characters

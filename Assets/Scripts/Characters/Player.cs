@@ -11,12 +11,14 @@ public class Player : Pawn {
 
     bool mIsDead = false;
 
+    bool mIsAsleep = true;
     // Use this for initialization
     void Start () {
         GetAndSortPathColliders();
         AssignPacmanSprite();
         mIsDead = false;
-        mDirection = Direction.LEFT;
+        mIsAsleep = true;
+        mDirection = Direction.RIGHT;
         mOriginalPosition = transform.position;
         mAnimator = GetComponent<Animator>();
     }
@@ -27,50 +29,75 @@ public class Player : Pawn {
         {
             return;
         }
-        PlayerControl();
+        Direction newDirection = PlayerControl();
+        if (!mIsAsleep)
+        {
+            PlayerWantsToMove(newDirection);
+        }
     }
 
     //used to poll Player's input
-    void PlayerControl()
+    Direction PlayerControl()
     {
-        mIsMoving = false;
+        Direction newDirection = mDirection;
         //right
         if (Input.GetButton("Horizontal") && Input.GetAxisRaw("Horizontal") > 0)
         {
-            PlayerWantsToMove(Direction.RIGHT);
+            newDirection = AssignNewDirection(Direction.RIGHT);
         }
         //left
         if (Input.GetButton("Horizontal") && Input.GetAxisRaw("Horizontal") < 0)
         {
-            PlayerWantsToMove(Direction.LEFT);
+            newDirection = AssignNewDirection(Direction.LEFT);
         }
         //Down
         if (Input.GetButton("Vertical") && Input.GetAxisRaw("Vertical") < 0)
         {
-            PlayerWantsToMove(Direction.DOWN);
+            newDirection = AssignNewDirection(Direction.DOWN);
+
         }
         //Up
         if (Input.GetButton("Vertical") && Input.GetAxisRaw("Vertical") > 0)
         {
-            PlayerWantsToMove(Direction.UP);
+            newDirection = AssignNewDirection(Direction.UP);
         }
-
-        mAnimator.SetBool("move", mIsMoving);
+        return newDirection;
     }
-
+    Direction AssignNewDirection(Direction direction)
+    {
+        mIsAsleep = false;
+        return direction;
+    }
     void PlayerWantsToMove(Direction direction)
     {
-        mIsMoving = MoveIfPossible(direction);
+        bool isNewDirectionFree = isPathFree(direction);
+        bool isCurrrentDirectionFree = isPathFree(mDirection);
+
+        mIsMoving = false;
+        if (isNewDirectionFree)
+        {
+            mDirection = direction;
+        }
+
+        if(isNewDirectionFree || isCurrrentDirectionFree)
+        {
+            mIsMoving = true;
+            Move(mDirection);
+        }
+
         if (mIsMoving)
         {
-            Vector2Int directionVector = GetVectorFromDirection(direction);
-            if (directionVector.y != 0){
+            Vector2Int directionVector = GetVectorFromDirection(mDirection);
+            if (directionVector.y != 0)
+            {
                 mPacmanSpriteTransform.rotation = Quaternion.Euler(new Vector3(0, 0, directionVector.y) * 90);
             }
-            else if (directionVector.x != 0){
+            else if (directionVector.x != 0)
+            {
                 mPacmanSpriteTransform.rotation = Quaternion.Euler(new Vector3(0, 0, directionVector.x - 1) * 90);
             }
         }
+        mAnimator.SetBool("move", mIsMoving);
     }
 
     void AssignPacmanSprite()
@@ -89,6 +116,7 @@ public class Player : Pawn {
     {
         if (!mIsDead)
         {
+            mIsAsleep = true;
             mIsDead = true;
             mIsMoving = false;
             mAnimator.SetBool("move", mIsMoving);
@@ -108,7 +136,6 @@ public class Player : Pawn {
     }
     public override void ResetPawn()
     {
-        //PowerDown();
         mIsDead = false;
         mIsMoving = false;
         mDirection = Direction.LEFT;

@@ -250,7 +250,7 @@ public class Enemy : Pawn {
         {
             mSpriteRenderer.sprite = mSprites[(int)SpriteType.DEAD];
             mSpriteRenderer.color = Color.white;
-            mSpeed = mOriginalSpeed * 1.5f;
+            mSpeed = mOriginalSpeed * 2.7f;
         }
         else if (mIsScared)
         {
