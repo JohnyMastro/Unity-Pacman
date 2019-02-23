@@ -301,9 +301,9 @@ public class Enemy : Pawn {
         return !mIsLatched && mIsAlive && !mIsScared;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.gameObject.tag == "player")
+        if (collider.gameObject.tag == "player")
         {
             if (isVulnerable())
             {
