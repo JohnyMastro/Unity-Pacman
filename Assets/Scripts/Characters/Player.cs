@@ -9,7 +9,7 @@ public class Player : Pawn {
 
     float mPowerUpTimer = 0f;
 
-    const float mPowerUpDeltaTime = 10f;
+    const float mPowerUpDeltaTime = 7f;
 
     Transform mPacmanSpriteTransform;
 
@@ -23,6 +23,7 @@ public class Player : Pawn {
         AssignPacmanSprite();
         mIsDead = false;
         mDirection = Direction.LEFT;
+        mOriginalPosition = transform.position;
         mAnimator = GetComponent<Animator>();
     }
 
@@ -137,8 +138,17 @@ public class Player : Pawn {
         gInstance.LoseLife();
         if (!gInstance.IsGameOver())
         {
-            gInstance.ReloadScene();
+            gInstance.ResetLevelOnPlayerDeath();
         }
+    }
+    public override void ResetPawn()
+    {
+        PowerDown();
+        mIsDead = false;
+        mIsMoving = false;
+        mDirection = Direction.LEFT;
+        transform.position = mOriginalPosition;
+        mAnimator.ResetTrigger("die");
     }
 
     protected override void AddPoints()

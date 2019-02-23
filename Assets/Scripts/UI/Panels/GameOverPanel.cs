@@ -33,6 +33,7 @@ public class GameOverPanel : Panel {
         mAnimator.ResetTrigger("fadeIn");
         GameStateManager.GetInstance().ReinitializeGame();
     }
+
     void UpdateInteractable(bool isInteractable)
     {
         mCanvasGroup.interactable = isInteractable;

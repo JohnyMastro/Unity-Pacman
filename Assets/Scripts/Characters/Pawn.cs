@@ -14,6 +14,7 @@ public abstract class Pawn : Collectible {
     protected PathCollider[] mPathColliders;
     protected SpriteRenderer mSpriteRenderer;
     protected Animator mAnimator;
+    protected Vector3 mOriginalPosition;
 
     // Use this for initialization
     void Start () {
@@ -101,5 +102,7 @@ public abstract class Pawn : Collectible {
     }
 
     public abstract void Die();
+
+    public abstract void ResetPawn();
 
 }

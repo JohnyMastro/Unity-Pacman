@@ -87,7 +87,11 @@ public class GameStateManager : MonoBehaviour {
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            _NumOfPellets = 0;
+            ResetLevelOnPlayerDeath();
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            _NumOfPellets=0;
         }
     }
 
@@ -101,20 +105,36 @@ public class GameStateManager : MonoBehaviour {
         return _Lives <= 0;
     }
 
-    public void ReloadScene()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
     public void LoseLife()
     {
         _Lives--;
     }
+
+    public void HardReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ResetLevelOnPlayerDeath()
+    {
+        Pawn[] pawns = FindObjectsOfType<Pawn>();
+
+        foreach(Pawn pawn in pawns)
+        {
+            pawn.ResetPawn();
+        }
+
+        Fruit fruit = FindObjectOfType<Fruit>();
+        fruit.ResetTimer();
+
+        FindObjectOfType<StartPanel>().Reinitialize();
+    }
+
     public void ReinitializeGame()
     {
         _Score = 0;
         _Lives = 3;
-        ReloadScene();
+        HardReloadScene();
     }
 
     public bool isNewHighScore()

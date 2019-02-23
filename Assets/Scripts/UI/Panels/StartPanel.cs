@@ -17,4 +17,13 @@ public class StartPanel : Panel {
             }
         }
     }
+
+    public void Reinitialize()
+    {
+        if (!mIsPanelActivated || mPanel.activeSelf)
+        {
+            Unpause();
+        }
+        Pause();
+    }
 }

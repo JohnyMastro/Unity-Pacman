@@ -22,7 +22,7 @@ public class WinPanel : Panel {
         {
             if ((!mIsPanelActivated || mPanel.activeSelf) && GameStateManager.GetInstance().IsGameWon())
             {
-                GameStateManager.GetInstance().ReloadScene();
+                GameStateManager.GetInstance().HardReloadScene();
             }
         }
     }

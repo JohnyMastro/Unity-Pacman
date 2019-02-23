@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,7 +43,7 @@ public class Fruit : Collectible {
         mHasAppeared = shouldAppear;
         if (shouldAppear)
         {
-            int index = Random.Range(0, 3);
+            int index = UnityEngine.Random.Range(0, 3);
             mSpriteRenderer.sprite = mSprites[index];
             mCollider.enabled = true;
         }
@@ -67,5 +68,11 @@ public class Fruit : Collectible {
             InstantiatePoints(transform);
 
         }
+    }
+
+    public void ResetTimer()
+    {
+        mAppearTimer = 0f;
+        mHasAppeared = false;
     }
 }

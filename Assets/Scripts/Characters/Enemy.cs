@@ -11,6 +11,8 @@ public class Enemy : Pawn {
 
     float mOriginalSpeed;
 
+    Direction mOriginalDirection;
+
     //Time interval for when the enemy can make a decision
     const float mDeltaDecisionTime = 1f;
 
@@ -50,6 +52,8 @@ public class Enemy : Pawn {
         mSpeed *= 0.7f;
         mOriginalSpeed = mSpeed;
         mPoints = 300;
+        mOriginalPosition = transform.position;
+        mOriginalDirection = mDirection;
         mSpawnPosition = RespawnTilemap.FindRespawnTile();
         mSpriteRenderer = GetComponent<SpriteRenderer>();
         mOriginalColor = mSpriteRenderer.color;
@@ -328,6 +332,15 @@ public class Enemy : Pawn {
             AddPoints();
             InstantiatePoints(transform);
         }
+    }
+
+    public override void ResetPawn()
+    {
+        transform.position = mOriginalPosition;
+        mDirection = mOriginalDirection;
+        mIsAlive = true;
+        mIsScared = true;
+        mIsRespawned = false;
     }
 
     protected override void AddPoints()
