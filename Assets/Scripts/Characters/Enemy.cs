@@ -59,6 +59,7 @@ public class Enemy : Pawn {
         mSpawnPosition = RespawnTilemap.FindRespawnTile();
         mSpriteRenderer = GetComponent<SpriteRenderer>();
         mOriginalColor = mSpriteRenderer.color;
+        mAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -165,6 +166,8 @@ public class Enemy : Pawn {
         mIsScared = false;
         mIsScaredTimer = 0;
         mDecisionTime = mDeltaDecisionTime;
+        mAnimator.ResetTrigger("blink");
+
     }
 
     void ScaredPolling()
@@ -175,6 +178,10 @@ public class Enemy : Pawn {
             if (mIsScaredTimer > mIsScaredDeltaTimer)
             {
                 CalmDown();
+            }
+            else if(mIsScaredDeltaTimer - mIsScaredTimer <= 1)
+            {
+                mAnimator.SetTrigger("blink");
             }
         }
     }

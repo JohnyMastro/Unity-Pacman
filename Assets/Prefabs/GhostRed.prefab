@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 50132408131735228}
   - component: {fileID: 114275918360804568}
   - component: {fileID: 58827618778601536}
+  - component: {fileID: 95552560915825432}
   m_Layer: 0
   m_Name: GhostRed
   m_TagString: Untagged
@@ -331,6 +332,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.2}
   m_EdgeRadius: 0
+--- !u!95 &95552560915825432
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1412429150923812}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4affe2b6fd6be304ebf0141004a5210a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114126643690379838
 MonoBehaviour:
   m_ObjectHideFlags: 1
