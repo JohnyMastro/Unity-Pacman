@@ -19,6 +19,11 @@ public class GameStateManager : MonoBehaviour {
         set { _IsPaused = value; }
     }
 
+    public int mLives
+    {
+        get { return _Lives; }
+    }
+
     public int mScore
     {
         get { return _Score;}
