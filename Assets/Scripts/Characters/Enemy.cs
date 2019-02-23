@@ -182,6 +182,7 @@ public class Enemy : Pawn {
             if (mIsScaredTimer > mIsScaredDeltaTimer)
             {
                 CalmDown();
+                GameStateManager.GetInstance().PowerDown();
             }
             else if(mIsScaredDeltaTimer - mIsScaredTimer <= 1)
             {

@@ -9,10 +9,8 @@ using UnityEngine.SceneManagement;
  * Singleton-like GameManager
  */
 public class GameStateManager : MonoBehaviour {
-    [SerializeField]
-    AudioClip mMainClip;
-
     AudioSource mAudioSource;
+    AudioSource mAudioSourcePowerUp;
     AudioHighPassFilter mHighPassFilter;
     private static GameStateManager mInstance;
     private int _Score = 0;
@@ -88,9 +86,9 @@ public class GameStateManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        mAudioSource = GetComponent<AudioSource>();
-        mAudioSource.clip = mMainClip;
-        mAudioSource.Play();
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        mAudioSource = audioSources[0];
+        mAudioSourcePowerUp = audioSources[1]; ;
         mHighPassFilter = GetComponent<AudioHighPassFilter>();
     }
 	
@@ -131,6 +129,18 @@ public class GameStateManager : MonoBehaviour {
         foreach (Enemy enemy in enemies)
         {
             enemy.Frighten();
+        }
+        if (!mAudioSourcePowerUp.isPlaying)
+        {
+            mAudioSourcePowerUp.Play();
+        }
+    }
+
+    public void PowerDown()
+    {
+        if (mAudioSourcePowerUp.isPlaying)
+        {
+            mAudioSourcePowerUp.Stop();
         }
     }
 

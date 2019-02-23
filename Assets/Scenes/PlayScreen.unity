@@ -237,6 +237,7 @@ GameObject:
   - component: {fileID: 121418593}
   - component: {fileID: 121418592}
   - component: {fileID: 121418594}
+  - component: {fileID: 121418596}
   - component: {fileID: 121418595}
   m_Layer: 0
   m_Name: GameStateManager
@@ -256,7 +257,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e611fdeaaf1b714f93ef4874104e338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mMainClip: {fileID: 8300000, guid: d475bc791baa41b42aa49c7419d5e2b9, type: 3}
 --- !u!4 &121418593
 Transform:
   m_ObjectHideFlags: 0
@@ -279,15 +279,15 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
+  m_audioClip: {fileID: 8300000, guid: d475bc791baa41b42aa49c7419d5e2b9, type: 3}
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 129
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -359,6 +359,86 @@ AudioHighPassFilter:
   m_Enabled: 0
   m_CutoffFrequency: 1000
   m_HighpassResonanceQ: 1
+--- !u!82 &121418596
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 121418591}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: b4b666914e968fc41b20e46e6fbdf746, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.25
+  m_Pitch: 0.9
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1 &159625626
 GameObject:
   m_ObjectHideFlags: 0
@@ -7867,6 +7947,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 82714245063076278, guid: e17b5c641ba9c6b48b32c950c4112030,
+        type: 2}
+      propertyPath: m_Pitch
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 82714245063076278, guid: e17b5c641ba9c6b48b32c950c4112030,
+        type: 2}
+      propertyPath: m_Volume
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 165039766198218508, guid: e17b5c641ba9c6b48b32c950c4112030,
+        type: 2}
+      propertyPath: m_CutoffFrequency
+      value: 350
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e17b5c641ba9c6b48b32c950c4112030, type: 2}
   m_IsPrefabParent: 0
@@ -12919,8 +13014,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1986427694}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 287.5, y: 161.5, z: 0}
-  m_LocalScale: {x: 0.29947916, y: 0.29947916, z: 0.29947916}
+  m_LocalPosition: {x: 304, y: 171, z: 0}
+  m_LocalScale: {x: 0.31666666, y: 0.31666666, z: 0.31666666}
   m_Children:
   - {fileID: 1667524847}
   - {fileID: 787635783}
