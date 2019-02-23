@@ -47,7 +47,7 @@ public class Enemy : Pawn {
     void Start () {
         GetAndSortPathColliders();
         mPlayer = FindObjectOfType<Player>();
-        mSpeed *= 0.8f;
+        mSpeed *= 0.7f;
         mOriginalSpeed = mSpeed;
         mPoints = 300;
         mSpawnPosition = RespawnTilemap.FindRespawnTile();
@@ -140,7 +140,7 @@ public class Enemy : Pawn {
     }
 
     /**
-     * Checks the if the player is close enough to latch onto
+     * Checks the if the player is close enough to latch onto or is powered up
      */
     void CheckPlayerStatus()
     {

@@ -74,13 +74,16 @@ public class GameStateManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //Debug.Log(_NumOfPellets);
-		if(_NumOfPellets <= 0)
+        if (Input.GetKeyDown(KeyCode.Y))
         {
-            //win
-            Debug.Log("win");
+            _NumOfPellets = 0;
         }
-	}
+    }
+
+    public bool IsGameWon()
+    {
+        return _NumOfPellets <= 0;
+    }
 
     public bool IsGameOver()
     {

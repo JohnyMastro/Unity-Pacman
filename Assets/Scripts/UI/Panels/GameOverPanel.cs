@@ -15,7 +15,7 @@ public class GameOverPanel : Panel {
         //if no more life: spawn animation
         if (GameStateManager.GetInstance().IsGameOver())
         {
-            if (!mIsPanelActivated || mPanel.activeSelf)
+            if (!mIsPanelActivated && !mPanel.activeSelf)
             {
                 mAnimator.SetTrigger("fadeIn");
                 Pause();
