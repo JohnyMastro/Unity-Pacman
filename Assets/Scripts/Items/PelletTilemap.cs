@@ -16,21 +16,24 @@ public class PelletTilemap : Pellet {
 		
 	}
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        OnPlayerCollision(collision);
+        OnPlayerCollision(collider);
+    }
+    void OnTriggerStay2D(Collider2D collider)
+    {
+        OnPlayerCollision(collider);
     }
 
-    protected virtual void OnPlayerCollision(Collision2D collision)
+    protected virtual void OnPlayerCollision(Collider2D collider)
     {
-        if (collision.gameObject.tag == "player")
+        if (collider.gameObject.tag == "player")
         {
-            Vector3 collisionPosition = Vector3.zero;
-            ContactPoint2D contact = collision.contacts[0];
-            collisionPosition.x = contact.point.x - 0.01f * contact.normal.x;
-            collisionPosition.y = contact.point.y - 0.01f * contact.normal.y;
-            _Tilemap.SetTile(_Tilemap.WorldToCell(collisionPosition), null);
-            AddPoints();
+            if (_Tilemap.GetTile(_Tilemap.WorldToCell(collider.gameObject.transform.position)) != null)
+            {
+                _Tilemap.SetTile(_Tilemap.WorldToCell(collider.gameObject.transform.position), null);
+                AddPoints();
+            }
         }
     }
 

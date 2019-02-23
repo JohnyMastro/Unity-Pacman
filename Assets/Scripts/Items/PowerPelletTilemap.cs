@@ -16,19 +16,23 @@ public class PowerPelletTilemap : PelletTilemap
 		
 	}
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        OnPlayerCollision(collision);
+        OnPlayerCollision(collider);
     }
-    protected override void OnPlayerCollision(Collision2D collision)
-    {
-        base.OnPlayerCollision(collision);
-        if(collision.gameObject.tag == "player")
-        {
-            //Notify enemies 
-            GameStateManager.GetInstance().PowerUp();
-            InstantiatePoints(collision.gameObject.transform);
 
+    protected override void OnPlayerCollision(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "player")
+        {
+            if (_Tilemap.GetTile(_Tilemap.WorldToCell(collider.gameObject.transform.position)) != null)
+            {
+                base.OnPlayerCollision(collider);
+
+                //Notify enemies 
+                GameStateManager.GetInstance().PowerUp();
+                InstantiatePoints(collider.gameObject.transform);
+            }
         }
 
     }
