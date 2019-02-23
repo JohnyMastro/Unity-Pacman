@@ -110,6 +110,16 @@ public class GameStateManager : MonoBehaviour {
         _Lives--;
     }
 
+    public void PowerUp()
+    {
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.Frighten();
+        }
+    }
+
     public void HardReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
