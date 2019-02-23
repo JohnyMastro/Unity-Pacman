@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameOverPanel : Panel {
-    Animator mAnimator; 
+    [SerializeField]
+    CanvasGroup mCanvasGroup;
+    Animator mAnimator;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         mAnimator = GetComponent<Animator>();
     }
 	
@@ -18,6 +20,7 @@ public class GameOverPanel : Panel {
             if (!mIsPanelActivated && !mPanel.activeSelf)
             {
                 mAnimator.SetTrigger("fadeIn");
+                UpdateInteractable(true);
                 Pause();
 
             }
@@ -26,7 +29,13 @@ public class GameOverPanel : Panel {
 
     public void StartNewGame()
     {
+        UpdateInteractable(false);
         mAnimator.ResetTrigger("fadeIn");
         GameStateManager.GetInstance().ReinitializeGame();
+    }
+    void UpdateInteractable(bool isInteractable)
+    {
+        mCanvasGroup.interactable = isInteractable;
+        mCanvasGroup.blocksRaycasts = isInteractable;
     }
 }

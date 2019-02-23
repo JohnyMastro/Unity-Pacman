@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +14,13 @@ public class GameStateManager : MonoBehaviour {
     private int _NumOfPellets = 0;
     private bool _IsPaused = false;
     private int _Lives = 3;
+    private Save _LoadedSave;
+    internal string mFilePath;
+
+    public Save mLoadedSave
+    {
+        get { return _LoadedSave; }
+    }
 
     public bool mIsPaused
     {
@@ -44,6 +53,8 @@ public class GameStateManager : MonoBehaviour {
         if (mInstance == null)
         {
             mInstance = this;
+            mInstance.mFilePath = Application.persistentDataPath + "/Unity-Pacman.save";
+            mInstance.LoadScore();
         }
         else if (mInstance != this)
         {
@@ -104,5 +115,36 @@ public class GameStateManager : MonoBehaviour {
         _Score = 0;
         _Lives = 3;
         ReloadScene();
+    }
+
+    public bool isNewHighScore()
+    {
+        return mLoadedSave.score < mScore;
+    }
+
+    public void SaveScore(string name)
+    {
+        Save save = new Save(name,mScore);
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(mFilePath);
+        bf.Serialize(file, save);
+        file.Close();
+        _LoadedSave = save;
+
+    }
+
+    public void LoadScore()
+    {
+        if (File.Exists(mFilePath))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(mFilePath, FileMode.Open);
+            _LoadedSave = (Save)bf.Deserialize(file);
+            file.Close();
+        }
+        else
+        {
+            _LoadedSave = new Save("",0);
+        }
     }
 }
