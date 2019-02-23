@@ -9,6 +9,11 @@ using UnityEngine.SceneManagement;
  * Singleton-like GameManager
  */
 public class GameStateManager : MonoBehaviour {
+    [SerializeField]
+    AudioClip mMainClip;
+
+    AudioSource mAudioSource;
+    AudioHighPassFilter mHighPassFilter;
     private static GameStateManager mInstance;
     private int _Score = 0;
     private int _NumOfPellets = 0;
@@ -25,7 +30,10 @@ public class GameStateManager : MonoBehaviour {
     public bool mIsPaused
     {
         get { return _IsPaused; }
-        set { _IsPaused = value; }
+        set {
+            _IsPaused = value;
+            mHighPassFilter.enabled = _IsPaused;
+            }
     }
 
     public int mLives
@@ -80,8 +88,11 @@ public class GameStateManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
-	}
+        mAudioSource = GetComponent<AudioSource>();
+        mAudioSource.clip = mMainClip;
+        mAudioSource.Play();
+        mHighPassFilter = GetComponent<AudioHighPassFilter>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
