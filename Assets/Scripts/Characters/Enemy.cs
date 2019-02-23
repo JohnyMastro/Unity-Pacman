@@ -30,8 +30,6 @@ public class Enemy : Pawn {
 
     bool mIsAlive = true;
 
-    //bool mIsRespawned = false;
-
     //Player got a powerup
     bool mIsScared = false;
 
@@ -61,7 +59,6 @@ public class Enemy : Pawn {
         mSpawnPosition = RespawnTilemap.FindRespawnTile();
         mSpriteRenderer = GetComponent<SpriteRenderer>();
         mOriginalColor = mSpriteRenderer.color;
-        //mSprites[(int)SpriteType.STANDARD] = mSpriteRenderer.sprite;
     }
 
     // Update is called once per frame
@@ -155,16 +152,6 @@ public class Enemy : Pawn {
     {
         float distanceToPlayer = Vector2.Distance(mPlayer.transform.position, transform.position);
         mIsLatched = distanceToPlayer < mLatchingDistance;
-        //if (mPlayer.IsPowerUp())
-        //{
-        //    mIsScared = true;
-        //}
-        //else
-        //{
-        //    mIsScared = false;
-        //    mIsRespawned = false;
-        //    mDecisionTime = mDeltaDecisionTime;
-        //}
     }
 
     public void Frighten()
@@ -191,6 +178,7 @@ public class Enemy : Pawn {
             }
         }
     }
+
     /**
      * Decide the best move to catch the player or to go to spawn point.
      * This uses a basic breadth first search
@@ -262,7 +250,7 @@ public class Enemy : Pawn {
         {
             mSpriteRenderer.sprite = mSprites[(int)SpriteType.DEAD];
             mSpriteRenderer.color = Color.white;
-            mSpeed = mOriginalSpeed * 1.3f;
+            mSpeed = mOriginalSpeed * 1.5f;
         }
         else if (mIsScared)
         {

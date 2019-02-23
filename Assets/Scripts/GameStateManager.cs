@@ -110,10 +110,13 @@ public class GameStateManager : MonoBehaviour {
         _Lives--;
     }
 
+    /*
+     * Scare (notifiy) enemies that the player ate power up
+     */
     public void PowerUp()
     {
         Enemy[] enemies = FindObjectsOfType<Enemy>();
-
+        
         foreach (Enemy enemy in enemies)
         {
             enemy.Frighten();

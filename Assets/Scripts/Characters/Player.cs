@@ -5,9 +5,6 @@ using UnityEngine;
 //this class is to give the player control over pacman
 public class Player : Pawn {
 
-    //bool mIsPoweredUp = false;
-
-
     Transform mPacmanSpriteTransform;
 
     bool mIsMoving = false;
@@ -75,19 +72,6 @@ public class Player : Pawn {
             }
         }
     }
-
-    public void PowerUp()
-    {
-        //mIsPoweredUp = true;
-        GameStateManager.GetInstance().PowerUp();
-    }
-
-    //public bool IsPowerUp()
-    //{
-    //   return mIsPoweredUp;
-    //}
-
-
 
     void AssignPacmanSprite()
     {

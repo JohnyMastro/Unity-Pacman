@@ -25,7 +25,8 @@ public class PowerPelletTilemap : PelletTilemap
         base.OnPlayerCollision(collision);
         if(collision.gameObject.tag == "player")
         {
-            collision.gameObject.GetComponent<Player>().PowerUp();
+            //Notify enemies 
+            GameStateManager.GetInstance().PowerUp();
             InstantiatePoints(collision.gameObject.transform);
 
         }
