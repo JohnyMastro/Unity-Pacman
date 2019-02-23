@@ -4,7 +4,12 @@ using UnityEngine;
 
 //this class is to give the player control over pacman
 public class Player : Pawn {
+    [SerializeField]
+    AudioClip mWakkaClip;
+    [SerializeField]
+    AudioClip mDieClip;
 
+    AudioSource mAudioSource;
     Transform mPacmanSpriteTransform;
 
     bool mIsMoving = false;
@@ -21,6 +26,8 @@ public class Player : Pawn {
         mDirection = Direction.RIGHT;
         mOriginalPosition = transform.position;
         mAnimator = GetComponent<Animator>();
+        mAudioSource = GetComponent<AudioSource>();
+        mAudioSource.clip = mWakkaClip;
     }
 
    // Update is called once per frame
@@ -87,6 +94,10 @@ public class Player : Pawn {
 
         if (mIsMoving)
         {
+            if (!mAudioSource.isPlaying)
+            {
+                mAudioSource.Play();
+            }
             Vector2Int directionVector = GetVectorFromDirection(mDirection);
             if (directionVector.y != 0)
             {
@@ -122,6 +133,9 @@ public class Player : Pawn {
             mAnimator.SetBool("move", mIsMoving);
             mPacmanSpriteTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
             mAnimator.SetTrigger("die");
+            mAudioSource.clip = mDieClip;
+            mAudioSource.Stop();
+            mAudioSource.Play();
         }
     }
 
@@ -140,6 +154,7 @@ public class Player : Pawn {
         mIsMoving = false;
         mDirection = Direction.LEFT;
         transform.position = mOriginalPosition;
+        mAudioSource.clip = mWakkaClip;
         mAnimator.ResetTrigger("die");
     }
 

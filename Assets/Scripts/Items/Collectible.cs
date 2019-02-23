@@ -6,10 +6,9 @@ public abstract class Collectible : MonoBehaviour {
     protected int mPoints = 100;
     protected GameObject mPointsPrefab;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    // Use this for initialization
+    void Start () {
+    }
 	
 	// Update is called once per frame
 	void Update () {

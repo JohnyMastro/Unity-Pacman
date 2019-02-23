@@ -5,36 +5,50 @@ using UnityEngine.Tilemaps;
 
 public class PelletTilemap : Pellet {
     public Tilemap _Tilemap;
+    AudioSource mAudioSourceEat;
 
     // Use this for initialization
     void Start () {
         InitPelletTilemap();
     }
+    private void Awake()
+    {
+        mAudioSourceEat = GetComponent<AudioSource>();
 
-	// Update is called once per frame
-	void Update () {
+    }
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        OnPlayerCollision(collider);
+        OnPlayerCollisionWithAudio(collider);
     }
     void OnTriggerStay2D(Collider2D collider)
     {
-        OnPlayerCollision(collider);
+        OnPlayerCollisionWithAudio(collider);
     }
 
-    protected virtual void OnPlayerCollision(Collider2D collider)
+    void OnPlayerCollisionWithAudio(Collider2D collider)
     {
         if (collider.gameObject.tag == "player")
         {
             if (_Tilemap.GetTile(_Tilemap.WorldToCell(collider.gameObject.transform.position)) != null)
             {
-                _Tilemap.SetTile(_Tilemap.WorldToCell(collider.gameObject.transform.position), null);
-                AddPoints();
+                OnPlayerCollision(collider);
+                if (!mAudioSourceEat.isPlaying)
+                {
+                    mAudioSourceEat.Play();
+                }
             }
         }
+    }
+
+    protected virtual void OnPlayerCollision(Collider2D collider)
+    {
+        _Tilemap.SetTile(_Tilemap.WorldToCell(collider.gameObject.transform.position), null);
+        AddPoints();
     }
 
     protected int GetNumberOfPellets()

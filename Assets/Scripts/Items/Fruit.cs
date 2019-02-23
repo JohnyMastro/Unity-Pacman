@@ -6,6 +6,7 @@ using UnityEngine;
 public class Fruit : Collectible {
     SpriteRenderer mSpriteRenderer;
     CircleCollider2D mCollider;
+    AudioSource mAudioSource;
 
     [SerializeField]
     Sprite[] mSprites;
@@ -19,6 +20,7 @@ public class Fruit : Collectible {
         mPoints = 500;
         mSpriteRenderer = GetComponent<SpriteRenderer>();
         mCollider = GetComponent<CircleCollider2D>();
+        mAudioSource = GetComponent<AudioSource>();
         Appear(false);
     }
 	
@@ -66,6 +68,10 @@ public class Fruit : Collectible {
             Appear(false);
             AddPoints();
             InstantiatePoints(transform);
+            if (!mAudioSource.isPlaying)
+            {
+                mAudioSource.Play();
+            }
 
         }
     }

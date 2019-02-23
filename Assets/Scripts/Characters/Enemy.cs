@@ -47,6 +47,8 @@ public class Enemy : Pawn {
 
     const float mIsScaredDeltaTimer = 10f;
 
+    AudioSource mAudioSource;
+
     // Use this for initialization
     void Start () {
         GetAndSortPathColliders();
@@ -60,6 +62,8 @@ public class Enemy : Pawn {
         mSpriteRenderer = GetComponent<SpriteRenderer>();
         mOriginalColor = mSpriteRenderer.color;
         mAnimator = GetComponent<Animator>();
+
+        mAudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -356,6 +360,10 @@ public class Enemy : Pawn {
             AddPoints();
             InstantiatePoints(transform);
             CalmDown();
+            if (!mAudioSource.isPlaying)
+            {
+                mAudioSource.Play();
+            }
         }
     }
 

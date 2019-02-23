@@ -5,14 +5,16 @@ using UnityEngine;
 
 public class PowerPelletTilemap : PelletTilemap
 {
-	// Use this for initialization
-	void Start () {
+    AudioSource mAudioSource;
+    // Use this for initialization
+    void Start () {
         mPoints = 200;
         InitPelletTilemap();
+        mAudioSource = GetComponent<AudioSource>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -32,6 +34,10 @@ public class PowerPelletTilemap : PelletTilemap
                 //Notify enemies 
                 GameStateManager.GetInstance().PowerUp();
                 InstantiatePoints(collider.gameObject.transform);
+                if (!mAudioSource.isPlaying)
+                {
+                    mAudioSource.Play();
+                }
             }
         }
 
