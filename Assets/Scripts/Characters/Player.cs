@@ -5,12 +5,6 @@ using UnityEngine;
 //this class is to give the player control over pacman
 public class Player : Pawn {
 
-    bool mIsPoweredUp = false;
-
-    float mPowerUpTimer = 0f;
-
-    const float mPowerUpDeltaTime = 7f;
-
     Transform mPacmanSpriteTransform;
 
     bool mIsMoving = false;
@@ -34,7 +28,6 @@ public class Player : Pawn {
             return;
         }
         PlayerControl();
-        PowerPolling();
     }
 
     //used to poll Player's input
@@ -80,34 +73,6 @@ public class Player : Pawn {
         }
     }
 
-    public void PowerUp()
-    {
-        mIsPoweredUp = true;
-    }
-
-    public bool IsPowerUp()
-    {
-       return mIsPoweredUp;
-    }
-
-    public void PowerDown()
-    {
-        mIsPoweredUp = false;
-        mPowerUpTimer = 0;
-    }
-
-    void PowerPolling()
-    {
-        if (mIsPoweredUp)
-        {
-            mPowerUpTimer += Time.deltaTime;
-            if (mPowerUpTimer > mPowerUpDeltaTime)
-            {
-                PowerDown();
-            }
-        }
-    }
-
     void AssignPacmanSprite()
     {
         foreach (Transform child in transform)
@@ -143,7 +108,7 @@ public class Player : Pawn {
     }
     public override void ResetPawn()
     {
-        PowerDown();
+        //PowerDown();
         mIsDead = false;
         mIsMoving = false;
         mDirection = Direction.LEFT;

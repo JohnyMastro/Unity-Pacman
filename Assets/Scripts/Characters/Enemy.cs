@@ -30,8 +30,6 @@ public class Enemy : Pawn {
 
     bool mIsAlive = true;
 
-    bool mIsRespawned = false;
-
     //Player got a powerup
     bool mIsScared = false;
 
@@ -45,6 +43,10 @@ public class Enemy : Pawn {
 
     Vector3Int mSpawnPosition;
 
+    float mIsScaredTimer = 0f;
+
+    const float mIsScaredDeltaTimer = 10f;
+
     // Use this for initialization
     void Start () {
         GetAndSortPathColliders();
@@ -57,7 +59,6 @@ public class Enemy : Pawn {
         mSpawnPosition = RespawnTilemap.FindRespawnTile();
         mSpriteRenderer = GetComponent<SpriteRenderer>();
         mOriginalColor = mSpriteRenderer.color;
-        //mSprites[(int)SpriteType.STANDARD] = mSpriteRenderer.sprite;
     }
 
     // Update is called once per frame
@@ -68,6 +69,7 @@ public class Enemy : Pawn {
         }
         CheckPlayerStatus();
         AIControls();
+        ScaredPolling();
         RespawnIfPossible();
         UpdateSpriteAndSpeed();
       //  Debug.Log(mDirection);
@@ -80,14 +82,14 @@ public class Enemy : Pawn {
     {
         if (!mIsAlive)
         {
-            if (IsCloseEnoughToCellCenter())//if the player is close by, follow it
+            if (IsCloseEnoughToCellCenter())//if dead, go to respawn point
             {
                 mDirection = DecideNextMoveBFS(mSpawnPosition);
             }
         }
         else if (mIsLatched)//if the player is close by
         {
-            if (isVulnerable())//if the player is powered up and close, the enemy will try to run away
+            if (mIsScared)//if the player is powered up and close, the enemy will try to run away
             {
                 mDecisionTime += Time.deltaTime;
                 //if (mDecisionTime > mDeltaDecisionTime)
@@ -150,15 +152,30 @@ public class Enemy : Pawn {
     {
         float distanceToPlayer = Vector2.Distance(mPlayer.transform.position, transform.position);
         mIsLatched = distanceToPlayer < mLatchingDistance;
-        if (mPlayer.IsPowerUp())
+    }
+
+    public void Frighten()
+    {
+        mIsScared = true;
+        mIsScaredTimer = 0;
+    }
+
+    public void CalmDown()
+    {
+        mIsScared = false;
+        mIsScaredTimer = 0;
+        mDecisionTime = mDeltaDecisionTime;
+    }
+
+    void ScaredPolling()
+    {
+        if (mIsScared)
         {
-            mIsScared = true;
-        }
-        else
-        {
-            mIsScared = false;
-            mIsRespawned = false;
-            mDecisionTime = mDeltaDecisionTime;
+            mIsScaredTimer += Time.deltaTime;
+            if (mIsScaredTimer > mIsScaredDeltaTimer)
+            {
+                CalmDown();
+            }
         }
     }
 
@@ -233,9 +250,9 @@ public class Enemy : Pawn {
         {
             mSpriteRenderer.sprite = mSprites[(int)SpriteType.DEAD];
             mSpriteRenderer.color = Color.white;
-            mSpeed = mOriginalSpeed * 1.3f;
+            mSpeed = mOriginalSpeed * 1.5f;
         }
-        else if (isVulnerable())
+        else if (mIsScared)
         {
             mSpriteRenderer.sprite = mSprites[(int)SpriteType.SCARED];
             mSpriteRenderer.color = Color.white;
@@ -257,8 +274,8 @@ public class Enemy : Pawn {
             if (currentCellPosition == mSpawnPosition)
             {
                 mIsAlive = true;
-                mIsScared = false;
-                mIsRespawned = true;
+                CalmDown();
+                //mIsRespawned = true;
             }
         }
     }
@@ -309,7 +326,7 @@ public class Enemy : Pawn {
     {
         if (collider.gameObject.tag == "player")
         {
-            if (isVulnerable())
+            if (mIsScared)
             {
                 Die();
             }
@@ -319,10 +336,10 @@ public class Enemy : Pawn {
             }
         }
     }
-    bool isVulnerable()
-    {
-        return mIsScared && !mIsRespawned;
-    }
+    //bool isVulnerable()
+    //{
+    //    return mIsScared && !mIsRespawned;
+    //}
 
     public override void Die()
     {
@@ -331,6 +348,7 @@ public class Enemy : Pawn {
             mIsAlive = false;
             AddPoints();
             InstantiatePoints(transform);
+            CalmDown();
         }
     }
 
@@ -340,7 +358,8 @@ public class Enemy : Pawn {
         mDirection = mOriginalDirection;
         mIsAlive = true;
         mIsScared = true;
-        mIsRespawned = false;
+        CalmDown();
+        //mIsRespawned = false;
     }
 
     protected override void AddPoints()
