@@ -14,11 +14,16 @@ public class RespawnTilemap : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        _Tilemap = GetComponent<Tilemap>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void Awake()
+    {
+        _Tilemap = GetComponent<Tilemap>();
+
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 

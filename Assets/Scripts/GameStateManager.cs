@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /**
  * Singleton-like GameManager
@@ -10,6 +11,7 @@ public class GameStateManager : MonoBehaviour {
     private int _Score = 0;
     private int _NumOfPellets = 0;
     private bool _IsPaused = false;
+    private int _Lives = 3;
 
     public bool mIsPaused
     {
@@ -74,4 +76,25 @@ public class GameStateManager : MonoBehaviour {
             Debug.Log("win");
         }
 	}
+
+    public bool IsGameOver()
+    {
+        return _Lives <= 0;
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void LoseLife()
+    {
+        _Lives--;
+    }
+    public void ReinitializeGame()
+    {
+        _Score = 0;
+        _Lives = 3;
+        ReloadScene();
+    }
 }
