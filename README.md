@@ -21,8 +21,8 @@ Disclaimer:
 The track Megalovania and the videogame Undertale are both owned by Toby Fox
 I have no affliation with the Undertale or Toby Fox.
 
-The I.P. and associated I.P. for the retro game Pacman is owned by Namco and assciates.
-I have no affliation with the Pacman I.P. or Namco and assciates.
+The I.P. and associated I.P. for the retro game Pacman is owned by Namco and associates.
+I have no affliation with the Pacman I.P. or Namco and associates.
 
 All I.P. used in this project was used solely for demonstration purposes and not with the intent of copyright infringement.
 
