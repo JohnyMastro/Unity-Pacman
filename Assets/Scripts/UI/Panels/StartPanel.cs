@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * Inherits Panel Class
+ * Manages start Panel
+ */
 public class StartPanel : Panel {
     void Start()
     {

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * This class is used to update and display the player's current score.
+ */
 public class Score : MonoBehaviour {
     Text mText;
 

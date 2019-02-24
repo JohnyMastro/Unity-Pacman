@@ -2,7 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/**
+ * This class inherits from Collectible.
+ * This is a self containing system where fruits only interact with the player.
+ * It will appear and disappear based on time and can provide the player extra points
+ */
 public class Fruit : Collectible {
     SpriteRenderer mSpriteRenderer;
     CircleCollider2D mCollider;
@@ -45,12 +49,14 @@ public class Fruit : Collectible {
         mHasAppeared = shouldAppear;
         if (shouldAppear)
         {
+            //show fruit and make it interactable
             int index = UnityEngine.Random.Range(0, 3);
-            mSpriteRenderer.sprite = mSprites[index];
+            mSpriteRenderer.sprite = mSprites[index];//Randomize type of fruit
             mCollider.enabled = true;
         }
         else
         {
+            //hide fruit
             mSpriteRenderer.sprite = null;
             mCollider.enabled = false;
         }

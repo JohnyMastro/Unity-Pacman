@@ -5,6 +5,11 @@ using UnityEngine.Tilemaps;
 
 public enum TileType {EMPTY, WALL, PELLET}
 
+/**
+ * This manages the tilemap for the maze walls
+ * The maze tile map is converted into a 2D array so that the Enemy AI may use 
+ * Breadth-first-search
+ */
 public class MazeTilemap : MonoBehaviour {
     public static Tilemap _MazeTilemap;
     public static TileType[,] MazeMap;
@@ -16,8 +21,6 @@ public class MazeTilemap : MonoBehaviour {
         _MazeTilemap = GetComponent<Tilemap>();
 
         MazeMap = new TileType[mX, mY];
-        //TileBase tiletest = _MazeTilemap.GetTile(new Vector3Int(0, 0, 0));
-       // _MazeTilemap.SetTile(new Vector3Int(1, 1, 0), tiletest);
         for (int x = 0; x < mX; x++)
         {
             for (int y = 0; y < mY; y++)

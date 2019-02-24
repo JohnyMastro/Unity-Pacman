@@ -4,20 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-
-
+/**
+ * This class inherits Pawn class and gives ghosts behaviour
+ */
 public class Enemy : Pawn {
+    //used to determin sprite type based on status
     enum SpriteType {STANDARD, SCARED, DEAD};
 
     float mOriginalSpeed;
 
     Direction mOriginalDirection;
-
-    //Time interval for when the enemy can make a decision
-    const float mDeltaDecisionTime = 1f;
-
-    //time count until next enemy decision
-    float mDecisionTime = mDeltaDecisionTime;
 
     //roughly the distance of on step in any direction
     const float mStepDistance = 0.8f;
@@ -41,28 +37,33 @@ public class Enemy : Pawn {
     //get reference of player to know where Pacman is in relation to the enemy
     Player mPlayer;
 
+    //Where the dead enemies go to respawn
     Vector3Int mSpawnPosition;
 
+    //timer for how long the power up should be
     float mIsScaredTimer = 0f;
 
+    //Power up length
     const float mIsScaredDeltaTimer = 10f;
 
+    //Death sound
     AudioSource mAudioSource;
 
     // Use this for initialization
     void Start () {
-        GetAndSortPathColliders();
-        mPlayer = FindObjectOfType<Player>();
         mSpeed *= 0.7f;
         mOriginalSpeed = mSpeed;
         mPoints = 300;
         mOriginalPosition = transform.position;
         mOriginalDirection = mDirection;
+
+        GetAndSortPathColliders();
+
+        mPlayer = FindObjectOfType<Player>();
         mSpawnPosition = RespawnTilemap.FindRespawnTile();
         mSpriteRenderer = GetComponent<SpriteRenderer>();
         mOriginalColor = mSpriteRenderer.color;
         mAnimator = GetComponent<Animator>();
-
         mAudioSource = GetComponent<AudioSource>();
     }
 
@@ -77,7 +78,6 @@ public class Enemy : Pawn {
         ScaredPolling();
         RespawnIfPossible();
         UpdateSpriteAndSpeed();
-      //  Debug.Log(mDirection);
     }
 
     /**
@@ -86,7 +86,7 @@ public class Enemy : Pawn {
     void AIControls()
     {
         if (!mIsAlive)
-        {
+        {   
             if (IsCloseEnoughToCellCenter())//if dead, go to respawn point
             {
                 mDirection = DecideNextMoveBFS(mSpawnPosition);
@@ -96,14 +96,9 @@ public class Enemy : Pawn {
         {
             if (mIsScared)//if the player is powered up and close, the enemy will try to run away
             {
-                mDecisionTime += Time.deltaTime;
-                //if (mDecisionTime > mDeltaDecisionTime)
-                //{
-                    mDirection = GetFarthestDirection();
-                  //  mDecisionTime = 0f;
-               // }
+                mDirection = GetFarthestDirection();
             }
-            else if (IsCloseEnoughToCellCenter())//if the enemy is alive, not scared, and close enough to player
+            else if (IsCloseEnoughToCellCenter())//if the enemy is alive, not scared, and close enough to player it will chase the player
             {
                 Vector3Int playerPosition = MazeTilemap._MazeTilemap.WorldToCell(mPlayer.transform.position);
                 mDirection = DecideNextMoveBFS(playerPosition);
@@ -119,7 +114,7 @@ public class Enemy : Pawn {
 
     /**
      * This function is used to check if the enemy is close enough to the center of the tilemap cell
-     * to approximate it's position for to successfully use breadth first search path finding
+     * to approximate it's position to successfully use breadth first search path finding
      */
     bool IsCloseEnoughToCellCenter()
     {
@@ -136,7 +131,7 @@ public class Enemy : Pawn {
     }
 
     /**
-     * This its to randomly generate and directions in case of wall collision
+     * This its to randomly generate and directions if enemy is docile
      * or if the pathfinding algorithm fails (which it shouldn't)
      */
     Direction GetRandomDirection()
@@ -151,7 +146,7 @@ public class Enemy : Pawn {
     }
 
     /**
-     * Checks the if the player is close enough to latch onto or is powered up
+     * Checks the if the player is close enough to latch onto
      */
     void CheckPlayerStatus()
     {
@@ -159,21 +154,29 @@ public class Enemy : Pawn {
         mIsLatched = distanceToPlayer < mLatchingDistance;
     }
 
+    /**
+     * Notify function, called from GameStateManager that the player is powered up
+     */
     public void Frighten()
     {
         mIsScared = true;
         mIsScaredTimer = 0;
     }
 
+    /**
+     * Revert enemy back to normal
+     */
     public void CalmDown()
     {
         mIsScared = false;
         mIsScaredTimer = 0;
-        mDecisionTime = mDeltaDecisionTime;
         mAnimator.ResetTrigger("blink");
 
     }
 
+    /**
+     * Check whether the enemy has been scared long enough
+     */
     void ScaredPolling()
     {
         if (mIsScared)
@@ -223,7 +226,7 @@ public class Enemy : Pawn {
 
     /**
      * Enqueues new possible moves for the enemy based on the given position.
-     * The KeyValuePair isused to keep track of the original chosen direction from the first level search.
+     * The KeyValuePair is used to keep track of the original chosen direction from the first level search.
      * This was done to easily get the winning original root decision.
      */
     void EnqueueEmptyPositions(KeyValuePair<Direction, Vector3Int> directionPosition, ref Queue<KeyValuePair<Direction, Vector3Int>> queue, ref Queue<KeyValuePair<Direction, Vector3Int>> dequeued, bool isFirstLevel = false )
@@ -255,9 +258,13 @@ public class Enemy : Pawn {
         return new Vector3Int(position.x + directionVector.x, position.y + directionVector.y, position.z);
      }
 
+    /**
+     * This is used to update the sprite and speed of the enemy.
+     * This could've been done using a animator state machine
+     * but this was more practical in this case
+     */
     void UpdateSpriteAndSpeed()
     {
-
         if(!mIsAlive)
         {
             mSpriteRenderer.sprite = mSprites[(int)SpriteType.DEAD];
@@ -278,6 +285,10 @@ public class Enemy : Pawn {
         }
     }
 
+    /**
+     * Checks and attempts to respawn dead enemy
+     * If it's at the respawn point, it can respawn.
+     */
     void RespawnIfPossible()
     {
         if (!mIsAlive)
@@ -287,11 +298,16 @@ public class Enemy : Pawn {
             {
                 mIsAlive = true;
                 CalmDown();
-                //mIsRespawned = true;
             }
         }
     }
 
+    /**
+     * This function is used to evaluate a 1 level deep choice.
+     * The goal is to make the enemy run away from the player.
+     * This is used to determine a direction if the enemy is scared (player is powered up)
+     * to get as far as possible from the player.
+     */
     Direction GetFarthestDirection()
     {
         List<KeyValuePair<Direction, float>> freeDirections = GetFreeDirections();
@@ -306,6 +322,10 @@ public class Enemy : Pawn {
         return choice.Key;
     }
 
+    /**
+     * This returns a one level deep check and current possible directions.
+     * It returns a list of possible directions and their evaluation.
+     */
     List<KeyValuePair<Direction,float>> GetFreeDirections(){
         List<KeyValuePair<Direction, float>> freeDirections =new List<KeyValuePair<Direction, float>>();
         foreach(PathCollider pathCollider in mPathColliders)
@@ -319,6 +339,10 @@ public class Enemy : Pawn {
         return freeDirections;
     }
 
+    /**
+     * This is used to evaluate a direction based on the current position;
+     * This is based on the distance to the player. The higher the value the better the evaluation.
+     */
     float EvaluateDirectionChoice(Direction direction)
     {
         Vector2 directionVector = GetVectorFromDirection(direction);
@@ -327,11 +351,6 @@ public class Enemy : Pawn {
         float distanceFromStepToPlayer = Vector2.Distance(mPlayer.transform.position, newPosition);
 
         return distanceFromStepToPlayer;
-    }
-
-    public bool isDocile()
-    {
-        return !mIsLatched && mIsAlive && !mIsScared;
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -348,10 +367,6 @@ public class Enemy : Pawn {
             }
         }
     }
-    //bool isVulnerable()
-    //{
-    //    return mIsScared && !mIsRespawned;
-    //}
 
     public override void Die()
     {

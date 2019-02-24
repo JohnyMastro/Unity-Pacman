@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * This class is used to display the current saved Highscore.
+ */
 public class Highscore : MonoBehaviour {
     [SerializeField]
     Text mTextScore;

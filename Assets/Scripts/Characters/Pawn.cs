@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//enum used to set direction of movement
 public enum Direction { UP, DOWN, LEFT, RIGHT};
 
 /**
@@ -26,6 +27,7 @@ public abstract class Pawn : Collectible {
 		
 	}
 
+    //Used to translate gameobject to desired location based on direction type
     public void Move(Direction direction)
     {
         Vector2 directionVector = GetVectorFromDirection(direction);
@@ -34,6 +36,7 @@ public abstract class Pawn : Collectible {
         transform.position = new Vector2(transform.position.x + directionVector.x, transform.position.y + directionVector.y);
     }
 
+    //ConvertsDirection type to Vector2Int
     protected Vector2Int GetVectorFromDirection(Direction direction)
     {
         Vector2Int directionVector;
@@ -58,6 +61,9 @@ public abstract class Pawn : Collectible {
         return directionVector;
     }
 
+    /**
+     * Used to Retrieve path colliders from sub-Gameobject and sorts them by direction
+     */ 
     protected void GetAndSortPathColliders()
     {
         PathCollider[] tmpPathColliders = GetComponentsInChildren<PathCollider>();
@@ -68,7 +74,9 @@ public abstract class Pawn : Collectible {
         }
     }
 
-    //will permit player to move in that direction if that cell is free
+    /**
+     * Will permit pawn to move in that direction if that cell is free
+     */
     protected bool MoveIfPossible(Direction direction)
     {
         bool didMove = false;
@@ -80,6 +88,9 @@ public abstract class Pawn : Collectible {
         return didMove;
     }
 
+    /**
+     * Checks if the path collider is free for the pawn to move to
+     */
     protected bool isPathFree(Direction direction)
     {
         bool canMove = true;

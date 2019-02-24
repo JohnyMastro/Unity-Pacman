@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * This class is used to update and display the lives counter
+ */
 public class LivesCounter : MonoBehaviour {
     [SerializeField]
     GameObject[] mLifeImages;

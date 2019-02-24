@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * This is an abstract class the is the base class for all collectible items 
+ */
 public abstract class Collectible : MonoBehaviour {
     protected int mPoints = 100;
     protected GameObject mPointsPrefab;
@@ -14,6 +17,11 @@ public abstract class Collectible : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    /**
+     * This function spawns Points Canvas prefab to get the points appearing effect for large collectibles
+     * like power pellets and fruits.
+     */
     protected void InstantiatePoints(Transform desiredTransform)
     {
         mPointsPrefab = Resources.Load<GameObject>("Prefabs/PointsCanvas");

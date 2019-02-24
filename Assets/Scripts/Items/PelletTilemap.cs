@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+/**
+ * inherits Pellet class
+ * This manages collision and behviours of the tilemap that holds standard pellets
+ */
 public class PelletTilemap : Pellet {
     public Tilemap _Tilemap;
     AudioSource mAudioSourceEat;
@@ -47,7 +51,7 @@ public class PelletTilemap : Pellet {
 
     protected virtual void OnPlayerCollision(Collider2D collider)
     {
-        _Tilemap.SetTile(_Tilemap.WorldToCell(collider.gameObject.transform.position), null);
+        _Tilemap.SetTile(_Tilemap.WorldToCell(collider.gameObject.transform.position), null); //Destroy pellet tile
         AddPoints();
     }
 
@@ -71,6 +75,9 @@ public class PelletTilemap : Pellet {
         return count;
     }
 
+    /**
+     * Adds the number of standard pellets to the pellets count in the GameStateManager
+     */
     protected void InitPelletTilemap()
     {
         _Tilemap = GetComponent<Tilemap>();

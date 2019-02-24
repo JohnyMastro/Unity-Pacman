@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+/**
+ * This class is used to manage the respawn tile map.
+ * This tilemap only has one tile (the respawn tile)
+ * This is so the that Enemy AI can use the location of the respawn tile for
+ * Breadth-First-Search when they are dead. The dead Enemy will go to the respawn tile and respawn
+ */
 public class RespawnTilemap : MonoBehaviour {
     public static Tilemap _Tilemap;
     private static Vector3Int _RespawnTilePosition;

@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * Inherits Panel Class
+ * Manages win Panel
+ */
 public class WinPanel : Panel {
     // Use this for initialization
     void Start()

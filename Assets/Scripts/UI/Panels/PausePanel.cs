@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/**
+ * Inherits Panel Class
+ * Manages Pause Panel
+ */
 public class PausePanel : Panel {
     void Start()
     {

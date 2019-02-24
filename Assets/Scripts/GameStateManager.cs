@@ -7,11 +7,12 @@ using UnityEngine.SceneManagement;
 
 /**
  * Singleton-like GameManager
+ * This Manages fields regarding the state of the game.
  */
 public class GameStateManager : MonoBehaviour {
-    AudioSource mAudioSource;
-    AudioSource mAudioSourcePowerUp;
-    AudioHighPassFilter mHighPassFilter;
+    internal AudioSource mAudioSourceMusic;
+    internal AudioSource mAudioSourcePowerUp;
+    internal AudioHighPassFilter mHighPassFilter;
     private static GameStateManager mInstance;
     private int _Score = 0;
     private int _NumOfPellets = 0;
@@ -20,6 +21,7 @@ public class GameStateManager : MonoBehaviour {
     private Save _LoadedSave;
     internal string mFilePath;
 
+    //Properties
     public Save mLoadedSave
     {
         get { return _LoadedSave; }
@@ -49,66 +51,9 @@ public class GameStateManager : MonoBehaviour {
         get { return _NumOfPellets; }
     }
 
-    public static GameStateManager GetInstance()
+    public bool isNewHighScore()
     {
-        return mInstance;
-    }
-
-    private void Awake()
-    {
-        if (mInstance == null)
-        {
-            mInstance = this;
-            mInstance.mFilePath = Application.persistentDataPath + "/Unity-Pacman.save";
-            mInstance.LoadScore();
-        }
-        else if (mInstance != this)
-        {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
-    }
-
-    public void AddPoints(int points)
-    {
-        _Score += points;
-        if(_Score>0 && (_Score % 20000 == 0))
-        {
-            if (_Lives < 3)
-            {
-                _Lives++;
-            }
-        }
-    }
-
-    public void PelletWasEaten()
-    {
-        _NumOfPellets--;
-    }
-
-    public void AddPelletCount(int numOfPellets)
-    {
-        _NumOfPellets += numOfPellets;
-    }
-
-    // Use this for initialization
-    void Start () {
-        AudioSource[] audioSources = GetComponents<AudioSource>();
-        mAudioSource = audioSources[0];
-        mAudioSourcePowerUp = audioSources[1]; ;
-        mHighPassFilter = GetComponent<AudioHighPassFilter>();
-    }
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            _Lives = 0;
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            _NumOfPellets=0;
-        }
+        return mLoadedSave.score < mScore;
     }
 
     public bool IsGameWon()
@@ -126,7 +71,74 @@ public class GameStateManager : MonoBehaviour {
         _Lives--;
     }
 
-    /*
+    public void PelletWasEaten()
+    {
+        _NumOfPellets--;
+    }
+
+    public void AddPelletCount(int numOfPellets)
+    {
+        _NumOfPellets += numOfPellets;
+    }
+
+    /**
+     * Get Singleton Instance
+     */
+    public static GameStateManager GetInstance()
+    {
+        return mInstance;
+    }
+
+    private void Awake()
+    {
+        if (mInstance == null)
+        {
+            mInstance = this; //Initialize singleton instance
+            mInstance.mFilePath = Application.persistentDataPath + "/Unity-Pacman.save";
+            mInstance.LoadScore();
+            AudioSource[] audioSources = mInstance.GetComponents<AudioSource>();
+            mInstance.mAudioSourceMusic = audioSources[0];
+            mInstance.mAudioSourcePowerUp = audioSources[1]; ;
+            mInstance.mHighPassFilter = GetComponent<AudioHighPassFilter>();
+        }
+        else if (mInstance != this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
+
+    // Use this for initialization
+    void Start () {
+
+    }
+
+    // Update is called once per frame
+    void Update () {
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            _Lives = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            _NumOfPellets=0;
+        }
+    }
+
+    public void AddPoints(int points)
+    {
+        _Score += points;
+        if (_Score > 0 && (_Score % 20000 == 0))
+        {
+            if (_Lives < 3)
+            {
+                _Lives++;
+            }
+        }
+    }
+
+    /**
      * Scare (notifiy) enemies that the player ate power up
      */
     public void PowerUp()
@@ -139,24 +151,28 @@ public class GameStateManager : MonoBehaviour {
         }
         if (!mAudioSourcePowerUp.isPlaying)
         {
-            Debug.Log("PLAY");
-            mAudioSourcePowerUp.loop = true;
             mAudioSourcePowerUp.Play();
         }
     }
 
     public void PowerDown()
     {
-        mAudioSourcePowerUp.loop = false;
         mAudioSourcePowerUp.Stop();
     }
 
+    /**
+     * Used to repopulate pellets
+     */
     public void HardReloadScene()
     {
         PowerDown();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    /**
+      * Used to reset the level when the player losses a life.
+      * This preserves the pellet tilemap
+      */
     public void ResetLevelOnPlayerDeath()
     {
         Pawn[] pawns = FindObjectsOfType<Pawn>();
@@ -172,7 +188,10 @@ public class GameStateManager : MonoBehaviour {
         PowerDown();
 
     }
-
+    /**
+     * This is used to completely restart the game.
+     * This is called after a gameover.
+     */
     public void ReinitializeGame()
     {
         _Score = 0;
@@ -180,11 +199,9 @@ public class GameStateManager : MonoBehaviour {
         HardReloadScene();
     }
 
-    public bool isNewHighScore()
-    {
-        return mLoadedSave.score < mScore;
-    }
-
+    /**
+     * Saving new Highscore
+     */
     public void SaveScore(string name)
     {
         Save save = new Save(name,mScore);
@@ -196,6 +213,9 @@ public class GameStateManager : MonoBehaviour {
 
     }
 
+    /**
+     * Loading last saved  Highscore
+     */
     public void LoadScore()
     {
         if (File.Exists(mFilePath))

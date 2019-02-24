@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * Inherits Panel Class
+ * Manages GameOver Panel
+ */ 
 public class GameOverPanel : Panel {
     [SerializeField]
     CanvasGroup mCanvasGroup;
@@ -23,7 +27,6 @@ public class GameOverPanel : Panel {
                 UpdateInteractable(true);
                 GameStateManager.GetInstance().PowerDown();
                 Pause();
-
             }
         }
     }

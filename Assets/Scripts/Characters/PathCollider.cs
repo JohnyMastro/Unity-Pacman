@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//This class is used for child GameObjects for pawns that will permit the pawn to moving only in free directions
+/**
+ * This class is used for child GameObjects for pawns that will permit the pawn to moving only in free directions 
+ */
 public class PathCollider : MonoBehaviour {
     //Here mDirection refers to the orientation of the collider
     public Direction mDirection;
@@ -25,7 +27,6 @@ public class PathCollider : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       // Debug.Log(mDirection +" locked "+collision.tag);
         if (collision.tag == "wall")
         {
             _isFree = false;
@@ -34,7 +35,6 @@ public class PathCollider : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-       // Debug.Log(mDirection + " unlocked " + collision.tag);
         if (collision.tag == "wall")
         {
             _isFree = true;

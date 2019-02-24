@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
 
+/**
+ * inherits PelletTilemap class
+ * This manages collision and behviours of the tilemap that holds power pellets
+ */
 public class PowerPelletTilemap : PelletTilemap
 {
     AudioSource mAudioSource;
@@ -31,8 +35,7 @@ public class PowerPelletTilemap : PelletTilemap
             {
                 base.OnPlayerCollision(collider);
 
-                //Notify enemies 
-                GameStateManager.GetInstance().PowerUp();
+                GameStateManager.GetInstance().PowerUp();//Notify enemies
                 InstantiatePoints(collider.gameObject.transform);
                 if (!mAudioSource.isPlaying)
                 {

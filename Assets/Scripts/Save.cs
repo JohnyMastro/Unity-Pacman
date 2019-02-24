@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /**
- * This class is used to save the highest score
+ * This class is used as a serializable object to save the highest score
  */
 [System.Serializable]
 public class Save

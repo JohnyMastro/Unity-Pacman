@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * This class is used to handle the input if the player gets a gameover and has a new highscore
+ * The sub GameObjects of this class will only appear on the gameover panel if the player gets a new highscore.
+ */
 public class NewHighscore : MonoBehaviour {
     [SerializeField]
     InputField mInputName;

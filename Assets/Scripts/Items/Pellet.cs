@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * Inherits from Collectible.
+ * Pellet is used to give pellets and power pellets a way to add points and subtract pellets count in GameStateManager
+ */
 public class Pellet : Collectible {
 
 	// Use this for initialization
