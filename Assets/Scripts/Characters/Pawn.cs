@@ -11,7 +11,7 @@ public enum Direction { UP, DOWN, LEFT, RIGHT};
  */
 public abstract class Pawn : Collectible {
     public Direction mDirection = Direction.LEFT;
-    protected float mSpeed = 0.03f;
+    protected float mSpeed = 1.7f;
     protected PathCollider[] mPathColliders;
     protected SpriteRenderer mSpriteRenderer;
     protected Animator mAnimator;
@@ -32,7 +32,7 @@ public abstract class Pawn : Collectible {
     {
         Vector2 directionVector = GetVectorFromDirection(direction);
         mDirection = direction;
-        directionVector *= mSpeed;
+        directionVector *= (mSpeed * Time.deltaTime);
         transform.position = new Vector2(transform.position.x + directionVector.x, transform.position.y + directionVector.y);
     }
 
