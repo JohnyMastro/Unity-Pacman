@@ -39,13 +39,13 @@ public class Fruit : Collectible {
         if (mAppearTimer > mAppearTimerDetla)
         {
             Appear(!mHasAppeared);
-            mAppearTimer = 0f;
         }
 
     }
 
     void Appear(bool shouldAppear)
     {
+        mAppearTimer = 0f;
         mHasAppeared = shouldAppear;
         if (shouldAppear)
         {

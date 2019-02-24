@@ -383,7 +383,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b4b666914e968fc41b20e46e6fbdf746, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.25
+  m_Volume: 0.23
   m_Pitch: 0.9
   Loop: 1
   Mute: 0
@@ -6475,7 +6475,7 @@ Tilemap:
   m_GameObject: {fileID: 836966146}
   m_Enabled: 1
   m_Tiles:
-  - first: {x: 8, y: 9, z: 0}
+  - first: {x: 8, y: 10, z: 0}
     second:
       m_TileIndex: 8
       m_TileSpriteIndex: 8
@@ -8042,21 +8042,6 @@ Prefab:
     - target: {fileID: 4409960549520610, guid: e17b5c641ba9c6b48b32c950c4112030, type: 2}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 82714245063076278, guid: e17b5c641ba9c6b48b32c950c4112030,
-        type: 2}
-      propertyPath: m_Pitch
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 82714245063076278, guid: e17b5c641ba9c6b48b32c950c4112030,
-        type: 2}
-      propertyPath: m_Volume
-      value: 0.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 165039766198218508, guid: e17b5c641ba9c6b48b32c950c4112030,
-        type: 2}
-      propertyPath: m_CutoffFrequency
-      value: 350
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e17b5c641ba9c6b48b32c950c4112030, type: 2}

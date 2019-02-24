@@ -44,7 +44,7 @@ public class Enemy : Pawn {
     float mIsScaredTimer = 0f;
 
     //Power up length
-    const float mIsScaredDeltaTimer = 10f;
+    const float mIsScaredDeltaTimer = 8f;
 
     //Death sound
     AudioSource mAudioSource;
