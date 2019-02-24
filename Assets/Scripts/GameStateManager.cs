@@ -196,6 +196,7 @@ public class GameStateManager : MonoBehaviour {
     {
         _Score = 0;
         _Lives = 3;
+        _NumOfPellets = 0;
         HardReloadScene();
     }
 

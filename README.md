@@ -6,6 +6,8 @@ This was done for a 72 hour test.
 
 Created in Unity 2017.2.0f3.
 
+WARNING: If you want to open the project in Unity, be sure to use the same version or a later version that supports the same features such as Tilemaps.
+
 There is a packaged version under Distribution directory.
 
 Sprites modified from: http://www.8bitrocket.com/2007/08/25/flash-cs3-actionscript-3-as3-game-primer-1-tile-maps-xml-and-bitmapdata/
