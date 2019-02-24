@@ -24,4 +24,6 @@ I have no affliation with the Pacman I.P. or Namco and assciates.
 
 All I.P. used in this project was used solely for demonstration purposes and not with the intent of copyright infringement.
 
-Enjoy the game :) 
+Enjoy the game :)
+
+Made by: Jonathan Mastromonaco 23-02-2019
