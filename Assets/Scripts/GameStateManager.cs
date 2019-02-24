@@ -12,7 +12,6 @@ using UnityEngine.SceneManagement;
 public class GameStateManager : MonoBehaviour {
     internal AudioSource mAudioSourceMusic;
     internal AudioSource mAudioSourcePowerUp;
-    internal AudioHighPassFilter mHighPassFilter;
     private static GameStateManager mInstance;
     private int _Score = 0;
     private int _NumOfPellets = 0;
@@ -32,7 +31,7 @@ public class GameStateManager : MonoBehaviour {
         get { return _IsPaused; }
         set {
             _IsPaused = value;
-            mHighPassFilter.enabled = _IsPaused;
+            mAudioSourceMusic.bypassEffects = !_IsPaused;
             }
     }
 
@@ -99,7 +98,6 @@ public class GameStateManager : MonoBehaviour {
             AudioSource[] audioSources = mInstance.GetComponents<AudioSource>();
             mInstance.mAudioSourceMusic = audioSources[0];
             mInstance.mAudioSourcePowerUp = audioSources[1]; ;
-            mInstance.mHighPassFilter = GetComponent<AudioHighPassFilter>();
         }
         else if (mInstance != this)
         {
@@ -166,7 +164,9 @@ public class GameStateManager : MonoBehaviour {
     public void HardReloadScene()
     {
         PowerDown();
+        mAudioSourceMusic.Pause();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        mAudioSourceMusic.Play();
     }
 
     /**
